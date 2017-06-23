@@ -1,4 +1,4 @@
-# ** Coverage Plot for Metagenomics**
+# Coverage Plot for Metagenomics
 
 ## About:
 1- The script of "MiCoP_MakeCoveragePlot.sh" takes a single ".bam" file that is the output of "bwa-mem -a".
@@ -16,3 +16,5 @@ $ samtools view ${BAMFile} | awk 'BEGIN { FS="\t" } { c[$1]++; l[$1,c[$1]]=$0 } 
 $ python ExtractCoverage.py ${UniqueReadList} GenomeInformation.txt
 ```
 where ${BAMFile} is the output file of the "bwa-mem -a" and ${UniqueReadList} is the name of the produced list of all unique reads.
+
+By Mohammed Alser, inspired by https://github.com/dkoslicki/CAMDA/tree/master/src
