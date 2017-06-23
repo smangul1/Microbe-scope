@@ -2,12 +2,12 @@
 ![alt text](https://github.com/smangul1/miCoP/blob/master/CoveragePlot/DS028112.1.png)
 
 ## About:
-1- The script of "MiCoP_MakeCoveragePlot.sh" takes a single ".bam" file that is the output of "bwa-mem -a".
-2- It extracts the unique reads that are mapped once and only once to the entire genome database.
-3- It sorts the unique read list based on the genome.
-4- For each genome, it takes the unique reads and builds coverage information and then generates the coverage plot.
-5- The coverage information includes the genome name, bp index, and number of reads that are mapped to the bp located at the bp index.
-6- All the coverage plots will be saved in "CoveragePlots" folder in the same working directory.
+1. The script of "MiCoP_MakeCoveragePlot.sh" takes a single ".bam" file that is the output of "bwa-mem -a".
+2. It extracts the unique reads that are mapped once and only once to the entire genome database.
+3. It sorts the unique read list based on the genome.
+4. For each genome, it takes the unique reads and builds coverage information and then generates the coverage plot.
+5. The coverage information includes the genome name, bp index, and number of reads that are mapped to the bp located at the bp index.
+6. All the coverage plots will be saved in "CoveragePlots" folder in the same working directory.
 
 ## Running a test:
 
