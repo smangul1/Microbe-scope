@@ -9,8 +9,19 @@
 5. The coverage information includes the genome name, bp index, and number of reads that are mapped to the bp located at the bp index.
 6. All the coverage plots will be saved in "CoveragePlots" folder in the same working directory.
 
+## Pre-processing Step [optional]:
+1. The reference genome database contains many contigs for each organism. If you like to generate a coverage plot for each organism rather than each contig, you need to pre-process the reference database.
+2. "ConcatContigs.py" prepares the database (fungi.fa) by extracting the long sequence of all organisms involoved.
+3. For each organism, it concats all contigs and generates a single fasta output (it updates the organism name and the length of the sequence in the header field & it also updates the sequence field with the new concatenated sequence). 
+
 ## Running a test:
 
+Pre-processing:
+```
+$ awk -F "|" '{print $2}' fungi.names | uniq > RefList.txt
+$ python ConcatContigs.py RefList.txt fungi.fa > fungi_ConcatContigs.fa
+```
+Coverage Plot:
 ```
 $ samtools view ${BAMFile} | awk 'BEGIN { FS="\t" } { c[$1]++; l[$1,c[$1]]=$0 } END { for (i in c) { if (c[i] == 1) for (j = 1; j <= c[i]; j++) print l[i,j] } }' | sort -t$'\t' -k 3,3 -V -k 1,1 > ${UniqueReadList}
 
