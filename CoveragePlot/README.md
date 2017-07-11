@@ -11,7 +11,7 @@
 6. All the coverage plots will be saved in "CoveragePlots" folder in the same working directory.
 
 ## Concatinating Contigs [optional]:
-1. The reference genome database contains many contigs for each organism. If you like to generate a coverage plot for each organism rather than each contig, you need to pre-process the reference database.
+1. The reference database contains many contigs for each organism. If you like to generate a coverage plot for each organism rather than each contig, you need to pre-process the reference database.
 2. "ConcatContigs.py" prepares the database (fungi.fa) by extracting the long sequence of all organisms involoved.
 3. For each organism, it concats all contigs and generates a single fasta output (it updates the organism name and the length of the sequence in the header field & it also updates the sequence field with the new concatenated sequence). 
 ```
