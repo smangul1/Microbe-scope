@@ -35,7 +35,7 @@ $ samtools view -bS SRR3546361_MergedContigs_Sorted.sam > SRR3546361_MergedConti
 ## Extract Unique Reads:
 1. Extract the name and length of each reference in the database.
 2. Extract the Unique Reads.
-3. Build the Coverage Plot.
+3. Build the Coverage Plot (it takes the plot window size and the read classifier mode).
 ```
 $ grep '>' fungi_ConcatContigs.fa > GenomeInformation.txt
 $ python ReadClassifier.py SRR3546361_MergedContigs_Sorted.sam 1 > Read_FullList.sam
@@ -48,7 +48,7 @@ $ samtools view SRR3546361_MergedContigs_Sorted.bam | awk 'BEGIN { FS="\t" } { c
 ## Extract MultiMapped Reads (within-genome):
 1. Extract the name and length of each reference in the database.
 2. Extract the Unique Reads.
-3. Build the Coverage Plot.
+3. Build the Coverage Plot (it takes the plot window size and the read classifier mode).
 ```
 $ grep '>' fungi_ConcatContigs.fa > GenomeInformation.txt
 $ python ReadClassifier.py SRR3546361_MergedContigs_Sorted.sam 2 > Read_FullList.sam
