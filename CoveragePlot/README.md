@@ -1,5 +1,6 @@
 # Coverage Plot for Metagenomics
-![alt text](https://github.com/smangul1/miCoP/blob/master/CoveragePlot/DS028112.1.png)
+![alt text](https://github.com/smangul1/miCoP/blob/master/CoveragePlot/Malassezia_globosa_CBS_7966.png)
+![alt text](https://github.com/smangul1/miCoP/blob/master/CoveragePlot/Malassezia_globosa_CBS_7966_MM.png)
 
 ## About:
 1. The script of "MiCoP_MakeCoveragePlot.sh" takes a single ".bam" file that is the output of "bwa-mem -a".
