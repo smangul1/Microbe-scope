@@ -11,7 +11,7 @@
 6. All the coverage plots will be saved in "CoveragePlots" folder in the same working directory.
 
 ## Step 1: Prepare reference database:
-1. The reference database contains many contigs for each organism. If you are interested in mapping at genome-level rather than contig-level, you need to pre-process the reference database.
+1. The reference database contains many contigs for each organism. If you are interested in mapping at organism-level rather than contig-level, you need to pre-process the reference database.
 2. The code below prepares the database (e.g., fungi.fa), such that for each organism, it concatenates all contigs and generates a single fasta output. It also updates the organism name and the length of the concatenated contigs in the header field of each organism. 
 ```
 $ grep '>' fungi.fa | awk -F "|" '{print $2}' | uniq > fungi_RefList.txt
