@@ -10,14 +10,28 @@
 5. The coverage information includes the genome name, bp index, and number of reads that are mapped to the bp located at the bp index.
 6. All the coverage plots will be saved in "CoveragePlots" folder in the same working directory.
 
-## Step 1: Preparing reference database [optional]:
-1. The reference database contains many contigs for each organism. If you like to generate a coverage plot for each organism rather than each contig, you need to pre-process the reference database.
-2. "ConcatContigs.py" prepares the database (fungi.fa) by extracting the long sequence of all organisms involoved.
-3. For each organism, it concats all contigs and generates a single fasta output (it updates the organism name and the length of the sequence in the header field & it also updates the sequence field with the new concatenated sequence). 
+## Step 1: Prepare reference database:
+1. The reference database contains many contigs for each organism. If you are interested in mapping at genome-level rather than contig-level, you need to pre-process the reference database.
+2. The code below prepares the database (e.g., fungi.fa), such that for each organism, it concatenates all contigs and generates a single fasta output. It also updates the organism name and the length of the concatenated contigs in the header field of each organism. 
 ```
-$ awk -F "|" '{print $2}' fungi.names | uniq > RefList.txt
-$ python ConcatContigs.py RefList.txt fungi.fa > fungi_ConcatContigs.fa
+$ grep '>' fungi.fa | awk -F "|" '{print $2}' | uniq > fungi_RefList.txt
+$ python ConcatContigs.py fungi_RefList.txt fungi.fa > fungi_ConcatContigs.fa
 ```
+To execute the algorithm on UCLA-Huffman2 cluster:
+```
+$ cd /u/project/zarlab/malser/MiCoP/Scripts
+$ qsub submit-Concat-Contigs.sh
+```
+Or execute the following commands:
+```
+$ cd /u/project/zarlab/malser/MiCoP/Scripts
+$ grep '>' /u/project/zarlab/serghei/eupathdb/eupathdbFasta/ameoba.fa | awk -F "|" '{print $2}' | uniq > /u/project/zarlab/malser/MiCoP/eupathdbFasta_ConcatContigs/ameoba_RefList.txt
+$ module load python/3.6.1
+$ python3 ConcatContigs.py /u/project/zarlab/malser/MiCoP/eupathdbFasta_ConcatContigs/ameoba_RefList.txt /u/project/zarlab/serghei/eupathdb/eupathdbFasta/ameoba.fa > /u/project/zarlab/malser/MiCoP/eupathdbFasta_ConcatContigs/ameoba_ConcatContigs.fa
+```
+The output concatenated contigs of each organism can be found at:
+/u/project/zarlab/malser/MiCoP/eupathdbFasta_ConcatContigs
+
 ## Step 2: BWA-MEM Mapping:
 1. Build Index of the reference.
 2. Align the read set to the reference database and Remove the reads that has no reference name in the third column.
