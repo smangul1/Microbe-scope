@@ -51,7 +51,8 @@ $ samtools view -bS SRR3546361_MergedContigs_Sorted.sam > SRR3546361_MergedConti
 ```
 $ grep '>' fungi_ConcatContigs.fa > GenomeInformation.txt
 $ python ReadClassifier.py SRR3546361_MergedContigs_Sorted.sam 1 > Read_FullList.sam
-$ python CoveragePlot.py Read_FullList.sam GenomeInformation.txt 100 1
+$ sort -t$'\t' -V -k 3,3 Read_FullList.sam > Read_FullList_Sorted.sam
+$ python CoveragePlot.py Read_FullList_Sorted.sam GenomeInformation.txt 100 1
 ```
 This command also extracts the uniquereads.
 ```
@@ -66,7 +67,8 @@ $ samtools view SRR3546361_MergedContigs_Sorted.bam | awk 'BEGIN { FS="\t" } { c
 ```
 $ grep '>' fungi_ConcatContigs.fa > GenomeInformation.txt
 $ python ReadClassifier.py SRR3546361_MergedContigs_Sorted.sam 2 > Read_FullList.sam
-$ python CoveragePlot.py Read_FullList.sam GenomeInformation.txt 100 2
+$ sort -t$'\t' -V -k 3,3 Read_FullList.sam > Read_FullList_Sorted.sam
+$ python CoveragePlot.py Read_FullList_Sorted.sam GenomeInformation.txt 100 2
 ```
 ![alt text](https://github.com/smangul1/miCoP/blob/master/CoveragePlot/Malassezia_globosa_CBS_7966_MM.png)
 
