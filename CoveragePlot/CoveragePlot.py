@@ -17,6 +17,7 @@ def parseargs():
 	parser.add_argument('IDs', help='Genome List: Name and length extracted from genome database (.fa). Required.')
 	parser.add_argument('WS', help='Plot Window Size. Required.')
 	parser.add_argument('CAT', help='Read Category Number: Enter one of the following numbers: (1) Unique Reads, (2) MultiMapped reads within genome, (3) MultiMapped reads across genomes. Required.')
+	parser.add_argument('CPD', help='Coverage Plot Directory. Required.')
 	args = parser.parse_args()
 	return args
 
@@ -39,7 +40,7 @@ elif Read_CAT==3:
 	rcat='MultiMapped reads (across-genome) #='
 	fcat='MultiMapped_across'
 
-mypath='CoveragePlots_'+fcat+'_WS'+str(window_size)	
+mypath= str(args.CPD)+'CoveragePlots_'+fcat+'_WS'+str(window_size)+'/'	
 try:
 	makedirs(mypath)
 except OSError as exc: # Python >2.5
@@ -189,15 +190,8 @@ for line in infile:
 		ax.text(0.25,0.52, rcat+' %s' % '{:,d}'.format(int(int(UniqueReads)-1)), horizontalalignment='left', verticalalignment='center', fontdict=coverage_font, transform=ax.transAxes)
 		ax.text(0.25,0.48,'Coverage='+'{:,d}'.format(coverage)+'bp out of '+'{:,d}'.format(location_max)+'bp' +' ('+ str('%.2f%%' % float(float(float(coverage)/float(location_max))*100.0)+')'), horizontalalignment='left', verticalalignment='center', fontdict=coverage_font, transform=ax.transAxes)
 		ax.text(0.25,0.44, 'Window Size='+ '{:,d}'.format(window_size), horizontalalignment='left', verticalalignment='center', fontdict=coverage_font, transform=ax.transAxes)
-
-		# comment2_txt = header +'\nUniquely Mapped Reads#='+str(UniqueReads-1)+'\nCoverage='+str(coverage)+' out of '+str(location_max)+' ('+'%.3f %%' % float(((int(coverage)/int(location_max))*100))+'%)'
-		# fig_txt = tw.fill(tw.dedent(comment2_txt.rstrip() ), width=50)
-		# plt.figtext(0.5, 0.5, fig_txt, horizontalalignment='center', multialignment='left',	fontdict=coverage_font, bbox=bbox_props)
-		# bb = t.get_bbox_patch()
-		# bb.set_boxstyle("round4", pad=0.3)
-
 		
-		plt.savefig(mypath+'/'+str(header)+'.png')
+		plt.savefig(mypath+str(header)+'.png')
 		#plt.savefig(os.path.abspath(output_file))
 		plt.close()
 		
@@ -344,15 +338,6 @@ ax.text(0.25,0.52, rcat+' %s' % '{:,d}'.format(int(int(UniqueReads)-1)), horizon
 ax.text(0.25,0.48,'Coverage='+'{:,d}'.format(coverage)+'bp out of '+'{:,d}'.format(location_max)+'bp' +' ('+ str('%.2f%%' % float(float(float(coverage)/float(location_max))*100.0)+')'), horizontalalignment='left', verticalalignment='center', fontdict=coverage_font, transform=ax.transAxes)
 ax.text(0.25,0.44, 'Window Size='+ '{:,d}'.format(window_size), horizontalalignment='left', verticalalignment='center', fontdict=coverage_font, transform=ax.transAxes)
 
-# comment2_txt = header +'\nUniquely Mapped Reads#='+str(UniqueReads-1)+'\nCoverage='+str(coverage)+' out of '+str(location_max)+' ('+'%.3f %%' % float(((int(coverage)/int(location_max))*100))+'%)'
-# fig_txt = tw.fill(tw.dedent(comment2_txt.rstrip() ), width=50)
-# plt.figtext(0.5, 0.5, fig_txt, horizontalalignment='center', multialignment='left',	fontdict=coverage_font, bbox=bbox_props)
-# bb = t.get_bbox_patch()
-# bb.set_boxstyle("round4", pad=0.3)
-
-
-plt.savefig(mypath+'/'+str(header)+'.png')
-print('The coverage plot directory is ' + mypath + '/')
-#plt.savefig(os.path.abspath(output_file))
+plt.savefig(mypath+str(header)+'.png')
 plt.close()
 infile.close()
