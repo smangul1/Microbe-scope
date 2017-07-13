@@ -4,6 +4,8 @@ import sys
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+from errno import EEXIST
+from os import makedirs,path
 import textwrap as tw
 import getopt
 
@@ -29,11 +31,22 @@ UniqueReads=0
 Read_CAT = int(args.CAT) #1 or 2 or 3
 if Read_CAT==1:
 	rcat='Unique reads #='
+	fcat='Unique'
 elif Read_CAT==2:
 	rcat='MultiMapped reads (within-genome) #='
+	fcat='MultiMapped_within'
 elif Read_CAT==3:
 	rcat='MultiMapped reads (across-genome) #='
-	
+	fcat='MultiMapped_across'
+
+mypath='CoveragePlots_'+fcat+'_WS'+str(window_size)	
+try:
+	makedirs(mypath)
+except OSError as exc: # Python >2.5
+	if exc.errno == EEXIST and path.isdir(mypath):
+		pass
+	else: raise
+		
 for line in infile:
 	splits = line.strip().split('\t')
 	#header = str(splits[2].strip())
@@ -184,7 +197,7 @@ for line in infile:
 		# bb.set_boxstyle("round4", pad=0.3)
 
 		
-		plt.savefig("CoveragePlots/%s.png" % header)
+		plt.savefig(mypath+'/'+str(header)+'.png')
 		#plt.savefig(os.path.abspath(output_file))
 		plt.close()
 		
@@ -338,7 +351,8 @@ ax.text(0.25,0.44, 'Window Size='+ '{:,d}'.format(window_size), horizontalalignm
 # bb.set_boxstyle("round4", pad=0.3)
 
 
-plt.savefig("CoveragePlots/%s.png" % header)
+plt.savefig(mypath+'/'+str(header)+'.png')
+print('The coverage plot directory is ' + mypath + '/')
 #plt.savefig(os.path.abspath(output_file))
 plt.close()
 infile.close()

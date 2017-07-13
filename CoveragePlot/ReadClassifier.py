@@ -26,8 +26,10 @@ prev_ref=""
 index=1
 MMWithin=1
 SameReadCounter=0
+MM_Storage=[]
 MMWithin_Storage=[]
 Unique_Storage=[]
+CommonRef=0
 for line in infile:
 	splits = line.strip().split('\t')
 	current_read = splits[0].strip()
@@ -40,27 +42,40 @@ for line in infile:
 	if len(result)>0: # if current_read==prev_read:
 		SameReadCounter=SameReadCounter+1
 		Unique_Storage.append(splits)
-		if MMWithin==1: # this is to terminate if the ref is different for similar reads
-			ref_result = re.findall('\\b'+current_ref+'\\b', prev_ref)
-			if len(ref_result)>0: # if current_ref==prev_ref:
-				MMWithin=1 #so far this read is still MMWithin
-				MMWithin_Storage.append(splits)
-			else:
-				MMWithin=2
+		MM_Storage.append(splits)
+		ref_result = re.findall('\\b'+current_ref+'\\b', prev_ref)
+		if len(ref_result)>0:
+			CommonRef=CommonRef+1
+		if len(ref_result)>0 and MMWithin==1: # if current_ref==prev_ref nad the this read is still MMWithin:
+			MMWithin=1 #so far this read is still MMWithin
+			#MMWithin_Storage.append(splits)
+		else:
+			MMWithin=2
 	else:
 		#Print MMWithin reads
 		if MMWithin==1 and SameReadCounter>1 and Read_CAT==2:
-			for item in MMWithin_Storage:
+			for item in MM_Storage:
 				ThisLine=""
 				for Litem in range(0,len(item)):
 					if Litem==len(item):
 						ThisLine=ThisLine+item[Litem]
 					else:
 						ThisLine=ThisLine+item[Litem]+'\t'
-				print ThisLine
-		MMWithin_Storage=[]
+				print(ThisLine)
+		#Print MMAcross reads
+		# if there are differerent genomes, no duplicated references, not Unique read, and in MM Across mode
+		if MMWithin==2 and CommonRef==1 and SameReadCounter>1 and Read_CAT==3: 
+			for item in MM_Storage:
+				ThisLine=""
+				for Litem in range(0,len(item)):
+					if Litem==len(item):
+						ThisLine=ThisLine+item[Litem]
+					else:
+						ThisLine=ThisLine+item[Litem]+'\t'
+				print(ThisLine)
+		MM_Storage=[]
 		#Print Unique Reads
-		if SameReadCounter<=1 && Read_CAT==1:
+		if SameReadCounter<=1 and Read_CAT==1:
 			for item in Unique_Storage:
 				ThisLine=""
 				for Litem in range(0,len(item)):
@@ -68,26 +83,37 @@ for line in infile:
 						ThisLine=ThisLine+item[Litem]
 					else:
 						ThisLine=ThisLine+item[Litem]+'\t'
-				print ThisLine
+				print(ThisLine)
 		Unique_Storage=[]
-		MMWithin_Storage.append(splits)
+		MM_Storage.append(splits)
 		Unique_Storage.append(splits)
 		MMWithin=1
 		SameReadCounter=1
+		CommonRef=1
 		
 	prev_read = current_read
 	prev_ref = current_ref
 
 # If last read is MMWithin, print it
 if MMWithin==1 and SameReadCounter>1 and Read_CAT==2:
-	for item in MMWithin_Storage:
+	for item in MM_Storage:
 		ThisLine=""
 		for Litem in range(0,len(item)):
 			if Litem==len(item):
 				ThisLine=ThisLine+item[Litem]
 			else:
 				ThisLine=ThisLine+item[Litem]+'\t'
-		print ThisLine
+		print(ThisLine)
+# If last read is MMAcross, print it
+if MMWithin==2 and CommonRef==1 and SameReadCounter>1 and Read_CAT==3: 
+	for item in MM_Storage:
+		ThisLine=""
+		for Litem in range(0,len(item)):
+			if Litem==len(item):
+				ThisLine=ThisLine+item[Litem]
+			else:
+				ThisLine=ThisLine+item[Litem]+'\t'
+		print(ThisLine)
 # If last read is Unique, print it
 if SameReadCounter==1 and Read_CAT==1:
 	sys.stdout.write(line)
