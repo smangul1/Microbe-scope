@@ -28,7 +28,7 @@ MMWithin=1
 SameReadCounter=0
 MM_Storage=[]
 MMWithin_Storage=[]
-Unique_Storage=[]
+#Unique_Storage=[]
 CommonRef=0
 for line in infile:
 	splits = line.strip().split('\t')
@@ -41,7 +41,7 @@ for line in infile:
 	result = re.findall('\\b'+current_read+'\\b', prev_read)
 	if len(result)>0: # if current_read==prev_read:
 		SameReadCounter=SameReadCounter+1
-		Unique_Storage.append(splits)
+		#Unique_Storage.append(splits)
 		MM_Storage.append(splits)
 		ref_result = re.findall('\\b'+current_ref+'\\b', prev_ref)
 		if len(ref_result)>0:
@@ -74,19 +74,19 @@ for line in infile:
 						ThisLine=ThisLine+item[Litem]+'\t'
 				print(ThisLine)
 		MM_Storage=[]
-		#Print Unique Reads
-		if SameReadCounter<=1 and Read_CAT==1:
-			for item in Unique_Storage:
-				ThisLine=""
-				for Litem in range(0,len(item)):
-					if Litem==len(item):
-						ThisLine=ThisLine+item[Litem]
-					else:
-						ThisLine=ThisLine+item[Litem]+'\t'
-				print(ThisLine)
-		Unique_Storage=[]
+		# #Print Unique Reads
+		# if SameReadCounter<=1 and Read_CAT==1:
+			# for item in Unique_Storage:
+				# ThisLine=""
+				# for Litem in range(0,len(item)):
+					# if Litem==len(item):
+						# ThisLine=ThisLine+item[Litem]
+					# else:
+						# ThisLine=ThisLine+item[Litem]+'\t'
+				# print(ThisLine)
+		#Unique_Storage=[]
 		MM_Storage.append(splits)
-		Unique_Storage.append(splits)
+		#Unique_Storage.append(splits)
 		MMWithin=1
 		SameReadCounter=1
 		CommonRef=1
@@ -115,6 +115,6 @@ if MMWithin==2 and CommonRef==1 and SameReadCounter>1 and Read_CAT==3:
 				ThisLine=ThisLine+item[Litem]+'\t'
 		print(ThisLine)
 # If last read is Unique, print it
-if SameReadCounter==1 and Read_CAT==1:
-	sys.stdout.write(line)
+# if SameReadCounter==1 and Read_CAT==1:
+	# sys.stdout.write(line)
 infile.close()

@@ -41,28 +41,27 @@ echo "Step 1: Contigs Concatenation"
 grep '>' ${metagenome} | awk -F "|" '{print $2}' | uniq > ${dataDir}${metagenomeFName}_RefList.txt
 python3 ConcatContigs.py ${dataDir}${metagenomeFName}_RefList.txt ${metagenome} > ${dataDir}${metagenomeFName}_ConcatContigs.${metagenomeExtention}
 
-# BWA-MEM Mapping
+# # BWA-MEM Mapping
 echo "Step 2: BWA-MEM Indexing, Mapping, & Sorting"
 bwa index ${dataDir}${metagenomeFName}_ConcatContigs.${metagenomeExtention}
 bwa mem -a -v 0 ${dataDir}${metagenomeFName}_ConcatContigs.${metagenomeExtention} ${sample} | awk '$3!="*"' | samtools view -bS - > ${dataDir}${metagenomeFName}_${sampleFName}_Filtered.bam
-samtools view -h ${dataDir}${metagenomeFName}_${sampleFName}_Filtered.bam | sort -t$'\t' -k 1,1n -V -k 3,3 | samtools view -bS - >  ${dataDir}${metagenomeFName}_${sampleFName}_Sorted.bam
+samtools view -h ${dataDir}${metagenomeFName}_${sampleFName}_Filtered.bam | sort -t$'\t' -V -k 1,1n -V -k 3,3 | samtools view -bS - >  ${dataDir}${metagenomeFName}_${sampleFName}_Sorted.bam
 
 # Unique Read
 echo "Step 3: Unique Read Coverage"
 grep '>' ${dataDir}${metagenomeFName}_ConcatContigs.${metagenomeExtention} > ${dataDir}${metagenomeFName}_RefList.txt
-#samtools view ${dataDir}${metagenomeFName}_${sampleFName}_Sorted.bam | python3 ReadClassifier.py /dev/fd/0  1 | sort -t$'\t' -k 3,3 > ${dataDir}${metagenomeFName}_${sampleFName}_UniqueReads_Sorted.sam
+#samtools view ${dataDir}${metagenomeFName}_${sampleFName}_Sorted.bam | python3 ReadClassifier.py /dev/fd/0  1 | sort -t$'\t' -V -k 3,3 > ${dataDir}${metagenomeFName}_${sampleFName}_UniqueReads_Sorted.sam
 samtools view ${dataDir}${metagenomeFName}_${sampleFName}_Sorted.bam | awk 'BEGIN { FS="\t" } { c[$1]++; l[$1,c[$1]]=$0 } END { for (i in c) { if (c[i] == 1) for (j = 1; j <= c[i]; j++) print l[i,j] } }' | sort -t$'\t' -k 3,3 > ${dataDir}${metagenomeFName}_${sampleFName}_UniqueReads_Sorted.sam
 python3 CoveragePlot.py ${dataDir}${metagenomeFName}_${sampleFName}_UniqueReads_Sorted.sam ${dataDir}${metagenomeFName}_RefList.txt ${windowSize} 1 ${dataDir}
 
 # Multimapped Read (within genome)
 echo "Step 4: Multimapped Read (within genome) Coverage"
-samtools view ${dataDir}${metagenomeFName}_${sampleFName}_Sorted.bam | python3 ReadClassifier.py /dev/fd/0  2 | sort -t$'\t' -k 3,3 > ${dataDir}${metagenomeFName}_${sampleFName}_UniqueReads_Sorted.sam
+samtools view ${dataDir}${metagenomeFName}_${sampleFName}_Sorted.bam | python3 ReadClassifier.py /dev/fd/0  2 | sort -t$'\t' -V -k 3,3 > ${dataDir}${metagenomeFName}_${sampleFName}_UniqueReads_Sorted.sam
 python3 CoveragePlot.py ${dataDir}${metagenomeFName}_${sampleFName}_UniqueReads_Sorted.sam ${dataDir}${metagenomeFName}_RefList.txt ${windowSize} 2 ${dataDir}
-
 
 # Multimapped Read (across genome)
 echo "Step 5: Multimapped Read (across genome) Coverage"
-samtools view ${dataDir}${metagenomeFName}_${sampleFName}_Sorted.bam | python3 ReadClassifier.py /dev/fd/0  3 | sort -t$'\t' -k 3,3 > ${dataDir}${metagenomeFName}_${sampleFName}_UniqueReads_Sorted.sam
+samtools view ${dataDir}${metagenomeFName}_${sampleFName}_Sorted.bam | python3 ReadClassifier.py /dev/fd/0  3 | sort -t$'\t' -V -k 3,3 > ${dataDir}${metagenomeFName}_${sampleFName}_UniqueReads_Sorted.sam
 python3 CoveragePlot.py ${dataDir}${metagenomeFName}_${sampleFName}_UniqueReads_Sorted.sam ${dataDir}${metagenomeFName}_RefList.txt ${windowSize} 3 ${dataDir}
 
 echo "MiCoP coverage plots are genererated successfully ... $dataDir"
