@@ -58,7 +58,7 @@ This command also extracts the uniquereads.
 ```
 $ samtools view SRR3546361_MergedContigs_Sorted.bam | awk 'BEGIN { FS="\t" } { c[$1]++; l[$1,c[$1]]=$0 } END { for (i in c) { if (c[i] == 1) for (j = 1; j <= c[i]; j++) print l[i,j] } }' | sort -t$'\t' -k 3,3 -V -k 1,1 > Read_FullList.sam
 ```
-![alt text](https://github.com/smangul1/miCoP/blob/master/CoveragePlot/Malassezia_globosa_CBS_7966.png)
+![alt text](https://github.com/smangul1/miCoP/blob/master/Genome_Coverage_Visualizer/Static_Plot/Malassezia_globosa_CBS_7966.png)
 
 ## Step 5: Extract MultiMapped Reads (within-genome):
 1. Extract the name and length of each reference in the database.
@@ -70,6 +70,6 @@ $ python ReadClassifier.py SRR3546361_MergedContigs_Sorted.sam 2 > Read_FullList
 $ sort -t$'\t' -V -k 3,3 Read_FullList.sam > Read_FullList_Sorted.sam
 $ python CoveragePlot.py Read_FullList_Sorted.sam GenomeInformation.txt 100 2
 ```
-![alt text](https://github.com/smangul1/miCoP/blob/master/CoveragePlot/Malassezia_globosa_CBS_7966_MM.png)
+![alt text](https://github.com/smangul1/miCoP/blob/master/Genome_Coverage_Visualizer/Static_Plot/Malassezia_globosa_CBS_7966_MM.png)
 
 By Mohammed Alser
