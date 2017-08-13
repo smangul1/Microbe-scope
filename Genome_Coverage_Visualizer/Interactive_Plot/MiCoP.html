@@ -21,6 +21,9 @@
 	});
 	
 	$(document).ready(function() {
+		var x = document.getElementById('BttnDiv');
+		x.style.display = 'none';
+		
 		var options = {
 			chart: {
 				type: "column",
@@ -109,6 +112,9 @@
 
 		var getChart = function(strFileName){
 			$.get(strFileName, function(data) {
+				var x = document.getElementById('BttnDiv');
+				x.style.display = 'block';
+				
 				var series = [];
 				options.series=[];
 				// Split the lines
@@ -122,21 +128,57 @@
 					else if (lineNo == 1) {
 						options.subtitle.text= line;
 						var items = line.split('--');
-						document.getElementById("TBa").innerHTML ="Number";
-						document.getElementById("TBb").innerHTML ="Coverage Percentage (%)";
-						document.getElementById("TBc").innerHTML ="Coverage in Numbers (bp)";
-						document.getElementById("TBd").innerHTML ="Unique Read:";
-						document.getElementById("TBe").innerHTML = items[0].split('=')[1];
-						document.getElementById("TBf").innerHTML = items[1].split('=')[1].split('(')[1].split(')')[0];
-						document.getElementById("TBg").innerHTML = items[1].split('=')[1].split('(')[0];
-						document.getElementById("TBh").innerHTML ="Multi-Mapped Read within a genome:";
-						document.getElementById("TBi").innerHTML = items[2].split('#=')[1];
-						document.getElementById("TBj").innerHTML = items[3].split('=')[1].split('(')[1].split(')')[0];
-						document.getElementById("TBk").innerHTML = items[3].split('=')[1].split('(')[0];
-						document.getElementById("TBl").innerHTML ="Multi-Mapped Read across genomes:";
-						document.getElementById("TBm").innerHTML ="";
-						document.getElementById("TBn").innerHTML ="";
-						document.getElementById("TBo").innerHTML ="";
+						if (items.length==6) {
+							document.getElementById("TBa").innerHTML ="Number";
+							document.getElementById("TBb").innerHTML ="Coverage Percentage (%)";
+							document.getElementById("TBc").innerHTML ="Coverage in Numbers (bp)";
+							document.getElementById("TBd").innerHTML ="Unique Read:";
+							document.getElementById("TBe").innerHTML = items[0].split('=')[1];
+							document.getElementById("TBf").innerHTML = items[1].split('=')[1].split('(')[1].split(')')[0];
+							document.getElementById("TBg").innerHTML = items[1].split('=')[1].split('(')[0];
+							document.getElementById("TBh").innerHTML ="Multi-Mapped Read within a genome:";
+							document.getElementById("TBi").innerHTML = items[2].split('#=')[1];
+							document.getElementById("TBj").innerHTML = items[3].split('=')[1].split('(')[1].split(')')[0];
+							document.getElementById("TBk").innerHTML = items[3].split('=')[1].split('(')[0];
+							document.getElementById("TBl").innerHTML ="Multi-Mapped Read across genomes:";
+							document.getElementById("TBm").innerHTML = items[4].split('#=')[1];
+							document.getElementById("TBn").innerHTML = items[5].split('=')[1].split('(')[1].split(')')[0];
+							document.getElementById("TBo").innerHTML = items[5].split('=')[1].split('(')[0];
+						}
+						else if ((items[2].split('#=')[0].split('(')[1][0]=="w") ) {
+							document.getElementById("TBa").innerHTML ="Number";
+							document.getElementById("TBb").innerHTML ="Coverage Percentage (%)";
+							document.getElementById("TBc").innerHTML ="Coverage in Numbers (bp)";
+							document.getElementById("TBd").innerHTML ="Unique Read:";
+							document.getElementById("TBe").innerHTML = items[0].split('=')[1];
+							document.getElementById("TBf").innerHTML = items[1].split('=')[1].split('(')[1].split(')')[0];
+							document.getElementById("TBg").innerHTML = items[1].split('=')[1].split('(')[0];
+							document.getElementById("TBh").innerHTML ="Multi-Mapped Read within a genome:";
+							document.getElementById("TBi").innerHTML = items[2].split('#=')[1];
+							document.getElementById("TBj").innerHTML = items[3].split('=')[1].split('(')[1].split(')')[0];
+							document.getElementById("TBk").innerHTML = items[3].split('=')[1].split('(')[0];
+							document.getElementById("TBl").innerHTML ="Multi-Mapped Read across genomes:";
+							document.getElementById("TBm").innerHTML = "-";
+							document.getElementById("TBn").innerHTML = "-";
+							document.getElementById("TBo").innerHTML = "-";
+						}
+						else if ((items[2].split('#=')[0].split('(')[1][0]=="a") ) {
+							document.getElementById("TBa").innerHTML ="Number";
+							document.getElementById("TBb").innerHTML ="Coverage Percentage (%)";
+							document.getElementById("TBc").innerHTML ="Coverage in Numbers (bp)";
+							document.getElementById("TBd").innerHTML ="Unique Read:";
+							document.getElementById("TBe").innerHTML = items[0].split('=')[1];
+							document.getElementById("TBf").innerHTML = items[1].split('=')[1].split('(')[1].split(')')[0];
+							document.getElementById("TBg").innerHTML = items[1].split('=')[1].split('(')[0];
+							document.getElementById("TBh").innerHTML ="Multi-Mapped Read within a genome:";
+							document.getElementById("TBi").innerHTML = "-";
+							document.getElementById("TBj").innerHTML = "-";
+							document.getElementById("TBk").innerHTML = "-";
+							document.getElementById("TBl").innerHTML ="Multi-Mapped Read across genomes:";
+							document.getElementById("TBm").innerHTML = items[2].split('#=')[1];
+							document.getElementById("TBn").innerHTML = items[3].split('=')[1].split('(')[1].split(')')[0];
+							document.getElementById("TBo").innerHTML = items[3].split('=')[1].split('(')[0];
+						}
 					}
 					// the rest of the lines contain data with their name in the first position
 					else if (lineNo == 2) {
@@ -316,11 +358,11 @@
 			</tr>
 		</table>
 	</div>
-	<div>
+	<div id="BttnDiv">
 		<table class="tg" style="margin-left:auto;margin-right:auto;">
 			<tr>
 				<td class="tg-cellRight" >
-					<!-- <button class="button" onclick="downloadSummary('CoverageSummary.csv')" type="button">Coverage Summary</button> -->
+					<!-- <button class="button" onclick="downloadSummary('CoverageSummary.csv')" type="button">Download Coverage Summary</button> -->
 				</td>
 				<td class="tg-cellRight" >
 					<button class="button" onclick="downloadData()" type="button">Download Coverage Data (.csv)</button>
