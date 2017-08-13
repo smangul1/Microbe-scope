@@ -145,7 +145,7 @@
 							document.getElementById("TBn").innerHTML = items[5].split('=')[1].split('(')[1].split(')')[0];
 							document.getElementById("TBo").innerHTML = items[5].split('=')[1].split('(')[0];
 						}
-						else if ((items[2].split('#=')[0].split('(')[1][0]=="w") ) {
+						else if ( items.length==5 && (items[2].split('#=')[0].split('(')[1][0]=="w") ) {
 							document.getElementById("TBa").innerHTML ="Number";
 							document.getElementById("TBb").innerHTML ="Coverage Percentage (%)";
 							document.getElementById("TBc").innerHTML ="Coverage in Numbers (bp)";
@@ -162,7 +162,7 @@
 							document.getElementById("TBn").innerHTML = "-";
 							document.getElementById("TBo").innerHTML = "-";
 						}
-						else if ((items[2].split('#=')[0].split('(')[1][0]=="a") ) {
+						else if (items.length==5 &&  (items[2].split('#=')[0].split('(')[1][0]=="a") ) {
 							document.getElementById("TBa").innerHTML ="Number";
 							document.getElementById("TBb").innerHTML ="Coverage Percentage (%)";
 							document.getElementById("TBc").innerHTML ="Coverage in Numbers (bp)";
