@@ -1,9 +1,10 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>MiCoP: Coverage Plot v1.0 Beta</title>
-	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="Mohammed Alser">
+	<title>MiCoP Coverage Visualizer</title>
 	<!-- 1. Add these JavaScript inclusions in the head of your page -->
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>		
 	<script type="text/javascript" src="http://code.highcharts.com/stock/highstock.js"></script>
@@ -25,17 +26,28 @@
 				type: "column",
 				zoomType: 'xy',
 				renderTo: 'container',
+				style: {
+					fontSize:'10px'
+				}
 				//backgroundColor:'rgba(255, 255, 255, 0.0)'
 			},
+			colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
 			boost: {
 				useGPUTranslations: true,
 				usePreAllocated: true
 			},
 			title: {
-				text: ""
+				text: "",
+				style: {
+					color: '#08c'
+				}
 			},
 			subtitle: {
-				text: ""
+				text: "",
+				style: {
+					color: '#666666',
+					font: 'bold 10px "Trebuchet MS", Verdana, sans-serif'
+				}
 			},
 			xAxis: {
 				//crosshair: true,
@@ -44,10 +56,14 @@
 				max:200000,
 				categories: [],
 				title: {
-					text: "Reference genome basepair (bp)"
+					text: "Reference Genome Position (bp)"
 				},
 				labels: {
-					align:'right'
+					align:'right',
+					style: {
+						color: '#666666',
+						fontSize:'8px'
+					}
 				},
 				//tickmarkPlacement:'on',
 				scrollbar: {
@@ -57,6 +73,11 @@
 			yAxis:{
 				title: {
 					text: "Coverage Depth"
+				},
+				labels: {
+					style: {
+						fontSize:'8px'
+					}
 				}
 				//min:1,
 				//max:100,
@@ -100,6 +121,22 @@
 					}
 					else if (lineNo == 1) {
 						options.subtitle.text= line;
+						var items = line.split('--');
+						document.getElementById("TBa").innerHTML ="Number";
+						document.getElementById("TBb").innerHTML ="Coverage Percentage (%)";
+						document.getElementById("TBc").innerHTML ="Coverage in Numbers (bp)";
+						document.getElementById("TBd").innerHTML ="Unique Read:";
+						document.getElementById("TBe").innerHTML = items[0].split('=')[1];
+						document.getElementById("TBf").innerHTML = items[1].split('=')[1].split('(')[1].split(')')[0];
+						document.getElementById("TBg").innerHTML = items[1].split('=')[1].split('(')[0];
+						document.getElementById("TBh").innerHTML ="Multi-Mapped Read within a genome:";
+						document.getElementById("TBi").innerHTML = items[2].split('#=')[1];
+						document.getElementById("TBj").innerHTML = items[3].split('=')[1].split('(')[1].split(')')[0];
+						document.getElementById("TBk").innerHTML = items[3].split('=')[1].split('(')[0];
+						document.getElementById("TBl").innerHTML ="Multi-Mapped Read across genomes:";
+						document.getElementById("TBm").innerHTML ="";
+						document.getElementById("TBn").innerHTML ="";
+						document.getElementById("TBo").innerHTML ="";
 					}
 					// the rest of the lines contain data with their name in the first position
 					else if (lineNo == 2) {
@@ -128,70 +165,171 @@
 		});
 	});
 	
+	function downloadData() {
+		//get the filename from the selected item
+		var str1 = "MiCoP_FinalCSVs/";
+		var selVal = str1.concat($("#Mapped-Genome").val());
+		//redirect to this file
+		document.location = selVal.concat(".csv");
+	}
+	//these two functions work only with Chrome Browser
+	/*function downloadCSV(csv, filename) {
+		var csvFile;
+		var downloadLink;
+		// CSV file
+		csvFile = new Blob([csv], {type: "text/csv"});
+		// Download link
+		downloadLink = document.createElement("a");
+		// File name
+		downloadLink.download = filename;
+		// Create a link to the file
+		downloadLink.href = window.URL.createObjectURL(csvFile);
+		// Hide download link
+		downloadLink.style.display = "none";
+		// Add the link to DOM
+		document.body.appendChild(downloadLink);
+		// Click download link
+		downloadLink.click();
+	}
+	
+	function downloadSummary(filename) {
+		var csv = [];
+		var rows = document.querySelectorAll("table tr");
+		
+		for (var i = 0; i < rows.length; i++) {
+			var row = [], cols = rows[i].querySelectorAll("td, th");
+			for (var j = 0; j < cols.length; j++) 
+				row.push(cols[j].innerText);
+			csv.push(row.join(","));        
+		}
+		// Download CSV file
+		downloadCSV(csv.join("\n"), filename);
+	}*/
 	
 	</script>
 	<style>
-		body {
-			font-family: "Lato", sans-serif;
-		}
-
 		@media screen and (-webkit-min-device-pixel-ratio:0) {  /*safari and chrome*/
 			select {
 				height:30px;
 				line-height:30px;
 				background:#f4f4f4;
 			} 
-		}
-		select::-moz-focus-inner { /*Remove button padding in FF*/ 
-			border: 0;
-			padding: 0;
-		}
-		@-moz-document url-prefix() { /* targets Firefox only */
-			select {
-				padding: 15px 0!important;
-			}
-		}        
+		}     
 		@media screen\0 { /* IE Hacks: targets IE 8, 9 and 10 */        
 			select {
 				height:30px;
 				line-height:30px;
 			}     
 		}
-		body h1 {
-			font: 45px tahoma, serif;
-			font-weight: bold;
+		body {
+			width:90%;
+			margin-left:auto;
+			margin-right:auto;
 		}
-		table.ex {
-			padding: 0;
-			border-spacing: 0;
-			border-collapse: collapse;
-			border-spacing: 0px 0px;
+		hr {
+			height: 1px;
+			color: #08c;
+			background-color: #123455;
+			border: none;
 		}
+		body h2 {
+			float: left;
+			width: 100%;
+			margin: 0;
+			font-family: Quicksand,Arial,sans-serif;
+			font-weight: normal;
+			letter-spacing: -1px;
+			color: #555;
+			font-size: 31.5px;
+			line-height: 40px;
+			border-bottom: 1px #08c solid;
+		}
+		h2 em {
+			color: #08c;
+			font-style: normal;
+			font-weight: 400;
+		}
+		.button {
+			background-color: #08c;
+			border: none;
+			color: white;
+			padding: 5px 10px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 11px;
+		}
+		.tg  {border-collapse:collapse;border-spacing:0;border-color:#ccc;border:none;}
+		.tg td{font-family:Arial, sans-serif;font-size:14px;padding:3px 10px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#fff;}
+		.tg .tg-cell{font-weight:normal;font-size:11px;text-align:center;vertical-align:middle}
+		.tg .tg-cellRight{font-weight:normal;font-size:11px;text-align:right;vertical-align:middle}
 	</style>
 
 </head>
 <body>
-
-	<div class="w3-green">
-		<table class="ex" style="width: 1200px; margin-left:auto;margin-right:auto;">
+	<div>
+		<h2><em>MiCoP</em> Coverage Visualizer</h2>
+	</div>
+	
+	
+	<div>
+		<table style="width: 100%; margin-left:auto;margin-right:auto; border-bottom: 1px #333 dotted;">
 			<tr>
-				<td>
-					<h1>MiCoP Coverage Visualizer</h1>
+				<td align="right" style="width: 45%;">
+					<h5>Choose Organism Reference : &nbsp;</h5>
 				</td>
-				<td align="right" >
+				<td align="left" >
 					<select id="Mapped-Genome">
 						<option>Choose organism reference</option>
 					</select>
 				</td>
 			</tr>
+		</table>
+	</div>
+	<div style="height: 10px;">
+	</div>
+	<div >
+		<table class="tg" id ="SummTab" style="margin-left:auto;margin-right:auto;">
 			<tr>
-				<td colspan="2">
-					
+				<td class="tg-cell"></td>
+				<td class="tg-cell" id="TBa"></td>
+				<td class="tg-cell" id="TBb"></td>
+				<td class="tg-cell" id="TBc"></td>
+			</tr>
+			<tr>
+				<td class="tg-cellRight" id="TBd"></td>
+				<td class="tg-cell" id="TBe"></td>
+				<td class="tg-cell" id="TBf"></td>
+				<td class="tg-cell" id="TBg"></td>
+			</tr>
+			<tr>
+				<td class="tg-cellRight" id="TBh"></td>
+				<td class="tg-cell" id="TBi"></td>
+				<td class="tg-cell" id="TBj"></td>
+				<td class="tg-cell" id="TBk"></td>
+			</tr>
+			<tr>
+				<td class="tg-cellRight" id="TBl"></td>
+				<td class="tg-cell" id="TBm"></td>
+				<td class="tg-cell" id="TBn"></td>
+				<td class="tg-cell" id="TBo"></td>
+			</tr>
+		</table>
+	</div>
+	<div>
+		<table class="tg" style="margin-left:auto;margin-right:auto;">
+			<tr>
+				<td class="tg-cellRight" >
+					<!-- <button class="button" onclick="downloadSummary('CoverageSummary.csv')" type="button">Coverage Summary</button> -->
+				</td>
+				<td class="tg-cellRight" >
+					<button class="button" onclick="downloadData()" type="button">Download Coverage Data (.csv)</button>
 				</td>
 			</tr>
 		</table>
 	</div>
-	<hr>
+	<div style="height: 10px; border-bottom: 1px #333 dotted;">
+	</div>
 	<!-- 3. Add the container -->
 	<div id="container" style="width: 100%; height: 600px; margin: 0 auto"></div>
 
