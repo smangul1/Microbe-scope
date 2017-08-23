@@ -2,7 +2,8 @@
 1. Download all genomes from EuPathDB.org
 2. Download all genomes from NCBI-RefSeq
 3. Move NCBI-RefSeq-Viral folder from NCBI-RefSeq to EuPathDB
-4. Exclude NCBI-RefSeq-fungi from NCBI-RefSeq.
+4. Exclude NCBI-RefSeq-fungi from NCBI-RefSeq
+5. Exclude any organism from NCBI-RefSeq that is included in EuPathDB
 
 ## Download EuPathDB.org
 ```
