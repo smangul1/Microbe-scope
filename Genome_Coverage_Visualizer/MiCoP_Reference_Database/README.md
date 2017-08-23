@@ -4,7 +4,7 @@
 3. Move NCBI-RefSeq-Viral folder from NCBI-RefSeq to EuPathDB
 4. Exclude NCBI-RefSeq-fungi from NCBI-RefSeq.
 
-###Download EuPathDB.org
+## Download EuPathDB.org
 ```
 mkdir /u/scratch2/scratch2/m/malser/EuPathDB/amoebadb
 cd /u/scratch2/scratch2/m/malser/EuPathDB/amoebadb
