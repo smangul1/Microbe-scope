@@ -67,7 +67,7 @@ grep -r '>' /u/scratch2/scratch2/m/malser/EuPathDB/NCBI-RefSeq-viral/ | awk -F '
 ```
 
 ## Exclude any organism from NCBI-RefSeq that is included in EuPathDB:
-### If the workload can be done with 24 hours [limited by UCLA hoffman2]
+### If the workload can be done within 24 hours [limited by UCLA hoffman2]
 1. Download submit-RemoveRefSeqDuplicatedGenomes_bacteria.sh and CheckDuplicationFromRefSeqFolder.py
 2. Modify submit-RemoveRefSeqDuplicatedGenomes_bacteria.sh as needed (change email address, directories, and RefSeq folder name (e.g., replace the word "bacteria" with "archaea"))
 3. Submit the Job to UCLA Hoffman2
