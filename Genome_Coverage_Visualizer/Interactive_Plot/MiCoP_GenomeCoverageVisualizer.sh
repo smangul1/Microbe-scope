@@ -107,7 +107,7 @@ echo "Next step: Multimapped Read (across genome) Coverage"
 samtools view ${dataDir}${metagenomeFName}_${sampleFName}_Sorted.bam | python3 ${scriptDir}/ReadClassifier_and_Filter.py /dev/fd/0  3 | sort -t$'\t' -V -k 3,3 > ${dataDir}${metagenomeFName}_${sampleFName}_MMAcrossReads_Sorted.sam
 python3 ${scriptDir}/CoveragePlot_HighChartsSingleCSVperGenome.py ${dataDir}${metagenomeFName}_${sampleFName}_MMAcrossReads_Sorted.sam ${dataDir}${metagenomeFName}_RefList_perGenome.txt ${windowSize} 3 ${dataDir}
 #########################################################################
-# Multimapped Read (across genome)
+# Finalizing the output .csv files
 echo "Last step: Finalizing the output .csv files"
 python3 ${scriptDir}/FilterNulls_csv.py ${dataDir}MiCoP_FinalCSVs
 
