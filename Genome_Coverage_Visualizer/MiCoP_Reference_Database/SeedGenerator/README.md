@@ -5,4 +5,4 @@
 3. The script also removes all redundant seeds and keep only one.
 4. The output of the script will be in fastq format.
 
-** There are faster and more effiecient ways (such as maintaining a trie structure) of doing the same job of the script, if and only if we can address the memory and execution time limitations imposed by UCLA-Hoffman2.
+** There are faster and more effiecient ways (such as maintaining a trie structure, commented in "NonoverlappingSeedGenerator.py") of doing the same job of the script, if and only if we can address the memory and execution time limitations imposed by UCLA-Hoffman2.
