@@ -4,7 +4,7 @@ import argparse
 # handle user arguments
 def parseargs():    
 	parser = argparse.ArgumentParser(description='Generate all non-redundunt non-overlapping seeds from many sequences')
-	parser.add_argument('CSVF', help='Directory of all .csv files that are generated. Required.')
+	parser.add_argument('CSVF', help='Directory of all .fna files that are generated. Required.')
 	parser.add_argument('OUTF', help='Output directory for seeds. Required.')
 	args = parser.parse_args()
 	return args

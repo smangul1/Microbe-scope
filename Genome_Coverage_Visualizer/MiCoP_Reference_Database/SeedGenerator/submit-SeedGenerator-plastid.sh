@@ -31,16 +31,16 @@ dataDir="$dataDir/"
 Subdirectory=$(ls $dataDir)
 for file in $Subdirectory
 do
-	if [ -s "/u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/${file%.*}.fastq" ] #if file exists, to avoid overwriting existing files 
+	if [ -s "/u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/${file%.*}.fasta" ] #if file exists, to avoid overwriting existing files 
 	then
 		echo "$file found."
 	else
 		if [ -s "$dataDir$file" ] # if file is not empty
 		then
 			#mkdir -p "/u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/${dataDirBasename}"
-			python3 /u/project/zarlab/malser/MiCoP/Scripts/NonoverlappingSeedGenerator.py ${dataDir}${file} | awk '!seen[$0]++' | python3 /u/project/zarlab/malser/MiCoP/Scripts/FASTAformatter.py /dev/fd/0 ${file}> "/u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/${file%.*}.fastq"
+			python3 /u/project/zarlab/malser/MiCoP/Scripts/NonoverlappingSeedGenerator.py ${dataDir}${file} | awk '!seen[$0]++' | python3 /u/project/zarlab/malser/MiCoP/Scripts/FASTAformatter.py /dev/fd/0 ${file}> "/u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/${file%.*}.fasta"
 			# to verify that the output of previous command is correct 
-			# sort /u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/plastid.1.1.fastq | uniq -c |wc -l
+			# sort /u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/plastid.1.1.fasta | uniq -c |wc -l
 		fi
 	fi
 done
