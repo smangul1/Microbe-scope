@@ -89,13 +89,13 @@ if str(args.CSVF).endswith(".genomic.fna"):
 								# for SeedNo in range(0, int(len(sequence)/SeedSize)):
 									# #SeedCNT=SeedCNT+1
 									# SeedGlobalCNT=SeedGlobalCNT+1
-									# #text_file.write('> '+(str(subfile).rstrip().split('.')[0])+"."+str(SeedCNT)+'\n')
+									# #text_file.write('>'+(str(subfile).rstrip().split('.')[0])+"."+str(SeedCNT)+'\n')
 									# text_file.write(str(sequence[(SeedNo*SeedSize):((SeedNo+1)*SeedSize)-1])+'\n')
 								# #Check the last seed if the sequence is indivisible on the seed length
 								# if Ex>0:
 									# #SeedCNT=SeedCNT+1
 									# SeedGlobalCNT=SeedGlobalCNT+1
-									# #text_file.write('> '+(str(subfile).rstrip().split('.')[0])+"."+str(SeedCNT)+'\n')
+									# #text_file.write('>'+(str(subfile).rstrip().split('.')[0])+"."+str(SeedCNT)+'\n')
 									# text_file.write(str(sequence[len(sequence)-1-SeedSize:len(sequence)-1])+'\n')
 								# sequence=""		
 						# if int(SeedGlobalCNT)==100_000_000:
