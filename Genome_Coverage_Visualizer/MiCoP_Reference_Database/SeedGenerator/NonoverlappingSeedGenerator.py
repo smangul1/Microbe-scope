@@ -24,12 +24,20 @@ if str(args.CSVF).endswith(".genomic.fna"):
 					Ex=len(sequence)%SeedSize
 					for SeedNo in range(0, int(len(sequence)/SeedSize)):
 						print(str(sequence[(SeedNo*SeedSize):((SeedNo+1)*SeedSize)-1]))
-					#Check the last seed if the sequence is indivisible on the seed length
+					#Check the last seed if the sequence is indivisible by the seed length
 					if Ex>0:
 						print(str(sequence[len(sequence)-1-SeedSize:len(sequence)-1]))
 					sequence=""			
-				
-		
+# in case there is only a single genome in the file		
+if sequence!="":
+	if len(sequence) >=SeedSize:
+		Ex=len(sequence)%SeedSize
+		for SeedNo in range(0, int(len(sequence)/SeedSize)):
+			print(str(sequence[(SeedNo*SeedSize):((SeedNo+1)*SeedSize)-1]))
+		#Check the last seed if the sequence is indivisible by the seed length
+		if Ex>0:
+			print(str(sequence[len(sequence)-1-SeedSize:len(sequence)-1]))
+		sequence=""	
 # # python3 /u/project/zarlab/malser/MiCoP/Scripts/NonoverlappingSeedGenerator.py /u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered /u/scratch/d/dkim/NCBI-RefSeq_filtered_Seeds
 # import argparse
 # import sys
