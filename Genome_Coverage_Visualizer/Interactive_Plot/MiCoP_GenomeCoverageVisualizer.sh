@@ -85,8 +85,8 @@ elif [ "$7" = "3" ]
 then
 	# Sorting the input .bam file
 	echo "First step: Sorting BWA-MEM's output"
-	samtools view -H $8 > ${dataDir}header.txt  
-	samtools view $8 | sort -t$'\t' -V -k 1,1n -V -k 3,3 | cat ${dataDir}header.txt -| samtools view -bS - >  ${dataDir}${metagenomeFName}_${sampleFName}_Sorted.bam
+	samtools view -H $10 > ${dataDir}header.txt  
+	samtools view $10 | sort -t$'\t' -V -k 1,1n -V -k 3,3 | cat ${dataDir}header.txt -| samtools view -bS - >  ${dataDir}${metagenomeFName}_${sampleFName}_Sorted.bam
 
 	# Generate Reference List to be used for sorting the reads
 	grep '>' ${dataDir}${metagenomeFName}_ConcatContigs.${metagenomeExtention} > ${dataDir}${metagenomeFName}_RefList_perGenome.txt
