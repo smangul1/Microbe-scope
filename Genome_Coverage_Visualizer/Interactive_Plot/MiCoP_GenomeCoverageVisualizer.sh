@@ -6,7 +6,7 @@ set -e  # exit immediately if error occurs
 # module load samtools
 # sed -i -e 's/\r$//' MiCoP_GenomeCoverageVisualizer.sh
 # chmod +x MiCoP_GenomeCoverageVisualizer.sh
-# time ./MiCoP_GenomeCoverageVisualizer.sh /u/project/zarlab/serghei/eupathdb/eupathdbFasta/piroplasma.fa /u/home/galaxy/collaboratory/serghei/MetaSUB-Inter-City-Challenge/data/SRR3546361.fastq /u/project/zarlab/malser/MiCoP/Scripts /u/project/zarlab/malser/MiCoP 200 1 2
+# time ./MiCoP_GenomeCoverageVisualizer.sh /u/project/zarlab/serghei/eupathdb/eupathdbFasta/piroplasma.fa /u/home/galaxy/collaboratory/serghei/MetaSUB-Inter-City-Challenge/data/SRR3546361.fastq /u/project/zarlab/malser/MiCoP/Scripts /u/project/zarlab/malser/MiCoP 200 1 2 /u/scratch2/scratch2/m/malser/HomologyInformation/ 30
 #########################################################################
 # Reference database (metagenome)
 metagenome=$1 									# /u/project/zarlab/serghei/eupathdb/eupathdbFasta/piroplasma.fa
@@ -30,6 +30,10 @@ mkdir -p ${dataDir}
 #########################################################################
 # Coverage plot variables 
 windowSize=$5
+#########################################################################
+# Homology (RefSeq <-> EuPathDB) Information
+HomologyDir=$8                               # /u/scratch2/scratch2/m/malser/HomologyInformation/
+KmerSize=$9                                  # 30
 #########################################################################
 # Call Necessary Tools
 if [ "$6" = "1" ]
@@ -109,6 +113,7 @@ python3 ${scriptDir}/CoveragePlot_HighChartsSingleCSVperGenome.py ${dataDir}${me
 #########################################################################
 # Finalizing the output .csv files
 echo "Last step: Finalizing the output .csv files"
-python3 ${scriptDir}/FilterNulls_csv.py ${dataDir}MiCoP_FinalCSVs
+python3 ${scriptDir}/FilterNulls_csv.py ${dataDir}MiCoP_FinalCSVs ${dataDir}${metagenomeFName}_RefList_perGenome.txt ${HomologyDir} ${KmerSize} ${windowSize}
 
+ /u/scratch2/scratch2/m/malser/HomologyInformation/ 30 200
 echo "MiCoP Genome Coverage Visualizer is ready ... copy the following folder $dataDirMiCoP_FinalCSVs next to MiCoP.html from Scripts folder and open MiCoP.html"
