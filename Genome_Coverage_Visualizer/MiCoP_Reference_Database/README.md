@@ -4,6 +4,10 @@
 3. Move NCBI-RefSeq-Viral folder from NCBI-RefSeq to EuPathDB
 4. Exclude NCBI-RefSeq-fungi from NCBI-RefSeq
 5. Exclude any organism from NCBI-RefSeq that is included in EuPathDB
+6. Generate all nonoverlapping K-mers of size 30bp from RefSeq
+7. Concat all contigs from EuPath
+8. BWA-MEM K-mers of RefSeq to concatenated contigs of Eupath
+9. Generate Homology Information Folder
 
 ## Download EuPathDB.org
 ```
@@ -86,4 +90,51 @@ qsub submit-RemoveRefSeqDuplicatedGenomes_bacteria_part1.sh
 qsub submit-RemoveRefSeqDuplicatedGenomes_bacteria_part2.sh
 qsub submit-RemoveRefSeqDuplicatedGenomes_bacteria_part3.sh
 qsub submit-RemoveRefSeqDuplicatedGenomes_bacteria_part4.sh
+```
+
+## Generate all nonoverlapping K-mers of size 30bp from RefSeq (change archaea to your target organism of the RefSeq, e.g., plant or mitochondrion)
+```
+dataDir="/u/scratch2/scratch1/d/dkim/NCBI-RefSeq_filtered/archaea"
+dataDirBasename=`basename $dataDir`		#archaea			
+dataDir="$dataDir/"						
+Subdirectory=$(ls $dataDir)
+for file in $Subdirectory
+do
+	if [ -s "/u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/${file%.*}.fasta" ] #if file exists, to avoid overwriting existing files 
+	then
+		echo "$file found."
+	else
+		if [ -s "$dataDir$file" ] # if file is not empty
+		then
+			python3 /u/project/zarlab/malser/MiCoP/Scripts/NonoverlappingSeedGenerator.py ${dataDir}${file} | awk '!seen[$0]++' | python3 /u/project/zarlab/malser/MiCoP/Scripts/FASTAformatter.py /dev/fd/0 ${file}> "/u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/${file%.*}.fasta"
+		fi
+	fi
+done
+```
+
+## Merge some files of EuPathDB .fasta into a single file (change fungidb into your target organism from EuPathDB)
+```
+cat /u/scratch2/scratch2/m/malser/EuPathDB/fungidb/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb.fasta
+```
+
+## Concat all contigs from EuPath
+```
+grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb.fasta | awk -F "|" '{print $2}' | uniq > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb_RefList_perGenome.txt
+python3 ConcatContigs.py /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb_RefList_perGenome.txt /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb.fasta > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb_ConcatContigs.fasta
+```
+
+## BWA-MEM K-mers of RefSeq to concatenated contigs of Eupath
+```
+bwa index /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb_ConcatContigs.fasta
+bwa mem /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb_ConcatContigs.fasta /u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/plant.100.1.genomic.fasta  | samtools view -bS - | samtools view -b -F 4  - > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb_ConcatContigs.bam
+```
+
+## [Optional] Keep fully mapped reads with an edit distance of 0 (exact matching)
+```
+samtools view /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb_ConcatContigs.bam | awk '$12=="NM:i:0"' | awk '$6=="30M"'
+```
+
+## Generate Homology Information Folder
+```
+samtools view /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb_ConcatContigs.bam | python3 /u/project/zarlab/malser/MiCoP/Scripts/homology_per_genome.py /dev/fd/0 /u/scratch2/scratch2/m/malser/HomologyInformation/
 ```
