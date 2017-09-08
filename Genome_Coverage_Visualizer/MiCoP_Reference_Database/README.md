@@ -93,6 +93,11 @@ qsub submit-RemoveRefSeqDuplicatedGenomes_bacteria_part4.sh
 ```
 
 ## Generate all nonoverlapping K-mers of size 30bp from RefSeq (change archaea to your target organism of the RefSeq, e.g., plant or mitochondrion)
+1. Run hoffman2 in interactive session mode
+```
+qrsh -l i,h_rt=24:00:00,h_data=25G
+```
+2. Save the shell script below to SeedGenerator.sh (change all directories and archaea folder into your target folders) 
 ```
 dataDir="/u/scratch2/scratch1/d/dkim/NCBI-RefSeq_filtered/archaea"
 dataDirBasename=`basename $dataDir`		#archaea			
@@ -110,6 +115,13 @@ do
 		fi
 	fi
 done
+```
+3. Run the SeedGenerator.sh from the interactive mode as follows
+```
+module load python/3.6.1
+sed -i -e 's/\r$//' /u/project/zarlab/malser/MiCoP/Scripts/SeedGenerator.sh
+chmod +x /u/project/zarlab/malser/MiCoP/Scripts/SeedGenerator.sh
+/u/project/zarlab/malser/MiCoP/Scripts/SeedGenerator.sh
 ```
 
 ## Merge some files of EuPathDB .fasta into a single file (change fungidb into your target organism from EuPathDB)
