@@ -48,5 +48,5 @@ for query in queries:
 				except StopIteration:
 					pass
 	if (AllContigs !=""):	
-		sys.stdout.write('>' + organism + ' | ' + "version=Not_Reported" + ' | ' + 'length=' + str(TotalLength) + ' | ' + HeaderSplits[4] + '\n')
+		sys.stdout.write('>' + organism + ' | ' + "version=Not_Reported" + ' | ' + 'length=' + str(TotalLength) + ' | ' + SO + '\n')
 		sys.stdout.write(AllContigs.strip().rstrip()+'\n')
