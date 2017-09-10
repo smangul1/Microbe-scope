@@ -31,7 +31,7 @@ for query in queries:
 				splits = line.rstrip().split(' ', 1)[1]
 				
 				if LineNo == 1: # extract the header once for each organism
-					organism="organism="+splits.rstrip().split(',')[0].replace(" ", "_")
+					organism="organism="+str(query).replace(" ", "_")
 					if (len(splits.rstrip().split(','))==1):
 						SO="SO=Not_Reported"
 					else:
