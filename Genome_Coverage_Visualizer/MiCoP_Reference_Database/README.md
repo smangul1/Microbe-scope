@@ -172,7 +172,7 @@ python3 /u/project/zarlab/malser/MiCoP/Scripts/ConcatContigs.py /u/scratch2/scra
 cat /u/scratch2/scratch1/d/dkim/EuPathDB/NCBI-RefSeq-viral/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral.genomic.fna
 grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral.genomic.fna | awk -F ' ' '$NF=="genome" {print $0}' | awk -F ',' '{print $1}' | awk '{for (i=2; i<NF; i++) printf $i " "; print $NF}' >> /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_EuPathDB_Merged_NCBI-RefSeq-viral_RefList_perGenome.txt
 grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral.genomic.fna | awk -F ' ' '$NF!="genome" {print $2,$3}' | uniq >> /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_EuPathDB_Merged_NCBI-RefSeq-viral_RefList_perGenome.txt
-python3 /u/project/zarlab/malser/MiCoP/Scripts/Concat_Contigs_RefSeq_to_EuPathDB_Converter.py /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_EuPathDB_Merged_NCBI-RefSeq-viral_RefList_perGenome.txt /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral.fasta > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+python3 /u/project/zarlab/malser/MiCoP/Scripts/Concat_Contigs_RefSeq_to_EuPathDB_Converter.py /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_EuPathDB_Merged_NCBI-RefSeq-viral_RefList_perGenome.txt /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral.genomic.fna > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
 ```
 
 ## BWA-MEM K-mers of RefSeq to concatenated contigs of Eupath
