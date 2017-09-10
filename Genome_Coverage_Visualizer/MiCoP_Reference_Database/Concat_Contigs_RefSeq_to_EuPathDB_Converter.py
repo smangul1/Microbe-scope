@@ -23,7 +23,6 @@ with open(args.OrganismList, 'r') as f:
 for query in queries:
 	LineNo = 1
 	AllContigs=""
-	TotalLength=0
 	nextLine=""
 	with open(args.RefDB, 'r') as f:
 		for line in f:
@@ -43,10 +42,9 @@ for query in queries:
 						AllContigs= AllContigs.strip().rstrip() + nextLine.strip().rstrip()
 						nextLine = next(f)
 						if (nextLine[0] ==">") and (query in nextLine):
-							TotalLength = len(AllContigs)
 							nextLine = next(f)
 				except StopIteration:
 					pass
 	if (AllContigs !=""):	
-		sys.stdout.write('>' + organism + ' | ' + "version=Not_Reported" + ' | ' + 'length=' + str(TotalLength) + ' | ' + SO + '\n')
+		sys.stdout.write('>' + organism + ' | ' + "version=Not_Reported" + ' | ' + 'length=' + str(len(AllContigs)) + ' | ' + SO + '\n')
 		sys.stdout.write(AllContigs.strip().rstrip()+'\n')
