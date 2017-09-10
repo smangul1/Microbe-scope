@@ -126,6 +126,7 @@ chmod +x /u/project/zarlab/malser/MiCoP/Scripts/SeedGenerator.sh
 
 ## Concat all contigs from EuPath and convert RefSeq-Viral from .fna into .fasta
 ```
+module load python/3.6.1
 # Concat EuPathDB .fasta files into a single file then concat all its contigs into a complete genome
 cat /u/scratch2/scratch1/d/dkim/EuPathDB/fungidb/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb.fasta
 grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb.fasta | awk -F "|" '{print $2}' | uniq > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb_RefList_perGenome.txt
