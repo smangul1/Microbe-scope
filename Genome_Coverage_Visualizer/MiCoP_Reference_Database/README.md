@@ -127,52 +127,51 @@ chmod +x /u/project/zarlab/malser/MiCoP/Scripts/SeedGenerator.sh
 ## Concat all contigs from EuPath and convert RefSeq-Viral from .fna into .fasta
 ```
 # Concat EuPathDB .fasta files into a single file then concat all its contigs into a complete genome
-cat /u/scratch2/scratch2/m/malser/EuPathDB/fungidb/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb.fasta
+cat /u/scratch2/scratch1/d/dkim/EuPathDB/fungidb/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb.fasta
 grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb.fasta | awk -F "|" '{print $2}' | uniq > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb_RefList_perGenome.txt
 python3 /u/project/zarlab/malser/MiCoP/Scripts/ConcatContigs.py /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb_RefList_perGenome.txt /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb.fasta > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb_ConcatContigs.fasta
 
-cat /u/scratch2/scratch2/m/malser/EuPathDB/tritrypdb/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_tritrypdb.fasta
+cat /u/scratch2/scratch1/d/dkim/EuPathDB/tritrypdb/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_tritrypdb.fasta
 grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_tritrypdb.fasta | awk -F "|" '{print $2}' | uniq > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_tritrypdb_RefList_perGenome.txt
 python3 /u/project/zarlab/malser/MiCoP/Scripts/ConcatContigs.py /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_tritrypdb_RefList_perGenome.txt /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_tritrypdb.fasta > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_tritrypdb_ConcatContigs.fasta
 
-cat /u/scratch2/scratch2/m/malser/EuPathDB/trichdb/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_trichdb.fasta
+cat /u/scratch2/scratch1/d/dkim/EuPathDB/trichdb/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_trichdb.fasta
 grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_trichdb.fasta | awk -F "|" '{print $2}' | uniq > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_trichdb_RefList_perGenome.txt
 python3 /u/project/zarlab/malser/MiCoP/Scripts/ConcatContigs.py /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_trichdb_RefList_perGenome.txt /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_trichdb.fasta > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_trichdb_ConcatContigs.fasta
 
-cat /u/scratch2/scratch2/m/malser/EuPathDB/toxodb/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_toxodb.fasta
+cat /u/scratch2/scratch1/d/dkim/EuPathDB/toxodb/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_toxodb.fasta
 grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_toxodb.fasta | awk -F "|" '{print $2}' | uniq > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_toxodb_RefList_perGenome.txt
 python3 /u/project/zarlab/malser/MiCoP/Scripts/ConcatContigs.py /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_toxodb_RefList_perGenome.txt /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_toxodb.fasta > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_toxodb_ConcatContigs.fasta
 
-cat /u/scratch2/scratch2/m/malser/EuPathDB/plasmodb/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_plasmodb.fasta
+cat /u/scratch2/scratch1/d/dkim/EuPathDB/plasmodb/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_plasmodb.fasta
 grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_plasmodb.fasta | awk -F "|" '{print $2}' | uniq > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_plasmodb_RefList_perGenome.txt
 python3 /u/project/zarlab/malser/MiCoP/Scripts/ConcatContigs.py /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_plasmodb_RefList_perGenome.txt /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_plasmodb.fasta > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_plasmodb_ConcatContigs.fasta
 
-cat /u/scratch2/scratch2/m/malser/EuPathDB/piroplasmadb/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_piroplasmadb.fasta
+cat /u/scratch2/scratch1/d/dkim/EuPathDB/piroplasmadb/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_piroplasmadb.fasta
 grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_piroplasmadb.fasta | awk -F "|" '{print $2}' | uniq > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_piroplasmadb_RefList_perGenome.txt
 python3 /u/project/zarlab/malser/MiCoP/Scripts/ConcatContigs.py /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_piroplasmadb_RefList_perGenome.txt /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_piroplasmadb.fasta > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_piroplasmadb_ConcatContigs.fasta
 
-cat /u/scratch2/scratch2/m/malser/EuPathDB/microsporidiadb/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_microsporidiadb.fasta
+cat /u/scratch2/scratch1/d/dkim/EuPathDB/microsporidiadb/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_microsporidiadb.fasta
 grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_microsporidiadb.fasta | awk -F "|" '{print $2}' | uniq > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_microsporidiadb_RefList_perGenome.txt
 python3 /u/project/zarlab/malser/MiCoP/Scripts/ConcatContigs.py /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_microsporidiadb_RefList_perGenome.txt /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_microsporidiadb.fasta > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_microsporidiadb_ConcatContigs.fasta
 
-cat /u/scratch2/scratch2/m/malser/EuPathDB/giardiadb/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_giardiadb.fasta
+cat /u/scratch2/scratch1/d/dkim/EuPathDB/giardiadb/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_giardiadb.fasta
 grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_giardiadb.fasta | awk -F "|" '{print $2}' | uniq > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_giardiadb_RefList_perGenome.txt
 python3 /u/project/zarlab/malser/MiCoP/Scripts/ConcatContigs.py /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_giardiadb_RefList_perGenome.txt /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_giardiadb.fasta > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_giardiadb_ConcatContigs.fasta
 
-cat /u/scratch2/scratch2/m/malser/EuPathDB/cryptodb/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_cryptodb.fasta
+cat /u/scratch2/scratch1/d/dkim/EuPathDB/cryptodb/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_cryptodb.fasta
 grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_cryptodb.fasta | awk -F "|" '{print $2}' | uniq > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_cryptodb_RefList_perGenome.txt
 python3 /u/project/zarlab/malser/MiCoP/Scripts/ConcatContigs.py /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_cryptodb_RefList_perGenome.txt /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_cryptodb.fasta > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_cryptodb_ConcatContigs.fasta
 
-cat /u/scratch2/scratch2/m/malser/EuPathDB/amoebadb/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_amoebadb.fasta
+cat /u/scratch2/scratch1/d/dkim/EuPathDB/amoebadb/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_amoebadb.fasta
 grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_amoebadb.fasta | awk -F "|" '{print $2}' | uniq > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_amoebadb_RefList_perGenome.txt
 python3 /u/project/zarlab/malser/MiCoP/Scripts/ConcatContigs.py /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_amoebadb_RefList_perGenome.txt /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_amoebadb.fasta > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_amoebadb_ConcatContigs.fasta
 
 # Concat NCBI RefSeq Viral files into a single file then convert .fna into .fasta format and concat all sequences but dont touch "complete genomes"
-cat /u/scratch2/scratch2/m/malser/EuPathDB/NCBI-RefSeq-viral/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral.genomic.fna
+cat /u/scratch2/scratch1/d/dkim/EuPathDB/NCBI-RefSeq-viral/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral.genomic.fna
 grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral.genomic.fna | awk -F ' ' '$NF=="genome" {print $0}' | awk -F ',' '{print $1}' | awk '{for (i=2; i<NF; i++) printf $i " "; print $NF}' >> /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_EuPathDB_Merged_NCBI-RefSeq-viral_RefList_perGenome.txt
 grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral.genomic.fna | awk -F ' ' '$NF!="genome" {print $2,$3}' | uniq >> /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_EuPathDB_Merged_NCBI-RefSeq-viral_RefList_perGenome.txt
 python3 /u/project/zarlab/malser/MiCoP/Scripts/Concat_Contigs_RefSeq_to_EuPathDB_Converter.py /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_EuPathDB_Merged_NCBI-RefSeq-viral_RefList_perGenome.txt /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral.fasta > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
-
 ```
 
 ## BWA-MEM K-mers of RefSeq to concatenated contigs of Eupath
