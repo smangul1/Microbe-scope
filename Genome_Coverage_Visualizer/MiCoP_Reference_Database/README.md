@@ -170,9 +170,79 @@ python3 /u/project/zarlab/malser/MiCoP/Scripts/ConcatContigs.py /u/scratch2/scra
 
 # Concat NCBI RefSeq Viral files into a single file then convert .fna into .fasta format and concat all sequences but dont touch "complete genomes"
 cat /u/scratch2/scratch1/d/dkim/EuPathDB/NCBI-RefSeq-viral/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral.genomic.fna
-grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral.genomic.fna | awk -F ' ' '$NF=="genome" {print $0}' | awk -F ',' '{print $1}' | awk '{for (i=2; i<NF; i++) printf $i " "; print $NF}' >> /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_EuPathDB_Merged_NCBI-RefSeq-viral_RefList_perGenome.txt
-grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral.genomic.fna | awk -F ' ' '$NF!="genome" {print $2,$3}' | uniq >> /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_EuPathDB_Merged_NCBI-RefSeq-viral_RefList_perGenome.txt
-python3 /u/project/zarlab/malser/MiCoP/Scripts/Concat_Contigs_RefSeq_to_EuPathDB_Converter.py /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_EuPathDB_Merged_NCBI-RefSeq-viral_RefList_perGenome.txt /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral.genomic.fna > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral.genomic.fna | awk -F ' ' '$NF=="genome" {print}' | awk -F ',' '{print $1}' | awk '{ $1=""; print}' >> /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_RefList_perGenome.txt
+grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral.genomic.fna | awk -F ' ' '$NF!="genome" {print}' | awk -F ',' '{print $1}' | awk '{ $1=""; $NF=""; print}' | uniq  >> /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_RefList_perGenome.txt
+python3 /u/project/zarlab/malser/MiCoP/Scripts/Concat_Contigs_RefSeq_to_EuPathDB_Converter.py /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_RefList_perGenome.txt /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral.genomic.fna > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+```
+
+## Refine the NCBI-RefSeq-Viral .fasta file
+Some organisms in the RefSeq-Viral have different versions, but they used same organism name (e.g., Tomato leaf curl Palampur virus, Blotched snakehead virus, Potato yellow vein virus, Hantaan virus, Humulus japonicus latent virus, Amasya cherry disease-associated mycovirus, Adult diarrheal rotavirus strain J19). This can lead to ignore these versions and consider them as a single reference genome in the BWA-MEM stage. Hence, we used the following script to add the sequence number to the organism name:
+```
+# Extract the sequence number and line number to use them for replacing the name of similar complete genomes
+grep 'Amasya cherry disease-associated mycovirus' /u/scratch2/scratch1/d/dkim/EuPathDB/NCBI-RefSeq-viral/viral.1.1.genomic.fna
+grep -n 'Amasya_cherry_disease-associated_mycovirus' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+# Replace   
+sed -i '7807s/.*/>organism=Amasya_cherry_disease-associated_mycovirus_NC_006440.1 | version=Not_Reported | length=3841 | SO=_complete_genome/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+sed -i '7809s/.*/>organism=Amasya_cherry_disease-associated_mycovirus_NC_006441.1 | version=Not_Reported | length=3841 | SO=_complete_genome/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+
+# Extract the sequence number and line number to use them for replacing the name of similar complete genomes
+grep 'Humulus japonicus latent virus' /u/scratch2/scratch1/d/dkim/EuPathDB/NCBI-RefSeq-viral/viral.1.1.genomic.fna
+grep -n 'Humulus_japonicus_latent_virus' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+# Replace   
+sed -i '7733s/.*/>organism=Humulus_japonicus_latent_virus_NC_006064.1 | version=Not_Reported | length=8130 | SO=_complete_genome/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+sed -i '7735s/.*/>organism=Humulus_japonicus_latent_virus_NC_006065.1 | version=Not_Reported | length=8130 | SO=_complete_genome/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+sed -i '7737s/.*/>organism=Humulus_japonicus_latent_virus_NC_006066.1 | version=Not_Reported | length=8130 | SO=_complete_genome/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+
+# Extract the sequence number and line number to use them for replacing the name of similar complete genomes
+grep 'Hantaan virus' /u/scratch2/scratch1/d/dkim/EuPathDB/NCBI-RefSeq-viral/viral.1.1.genomic.fna
+grep -n 'Hantaan_virus' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+# Replace   
+sed -i '7663s/.*/>organism=Hantaan_virus_NC_005218.1 | version=Not_Reported | length=11845 | SO=_complete_genome/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+sed -i '7665s/.*/>organism=Hantaan_virus_NC_005219.1 | version=Not_Reported | length=11845 | SO=_complete_genome/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+
+# Extract the sequence number and line number to use them for replacing the name of similar complete genomes
+grep 'Potato yellow vein virus' /u/scratch2/scratch1/d/dkim/EuPathDB/NCBI-RefSeq-viral/viral.1.1.genomic.fna
+grep -n 'Potato_yellow_vein_virus' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+# Replace  
+sed -i '3273s/.*/>organism=Potato_yellow_vein_virus_NC_006062.1 | version=Not_Reported | length=17266 | SO=_complete_sequence/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+sed -i '3275s/.*/>organism=Potato_yellow_vein_virus_NC_006063.1 | version=Not_Reported | length=17266 | SO=_complete_sequence/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+
+# Extract the sequence number and line number to use them for replacing the name of similar complete genomes
+grep 'Blotched snakehead virus' /u/scratch2/scratch1/d/dkim/EuPathDB/NCBI-RefSeq-viral/viral.1.1.genomic.fna
+grep -n 'Blotched_snakehead_virus' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+# Replace
+sed -i '1959s/.*/>organism=Blotched_snakehead_virus_NC_005983.1 | version=Not_Reported | length=6179 | SO=_complete_genome/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+sed -i '1861s/.*/>organism=Blotched_snakehead_virus_NC_005982.1 | version=Not_Reported | length=6179 | SO=_complete_genome/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+
+# Extract the sequence number and line number to use them for replacing the name of similar complete genomes
+grep 'Tomato leaf curl Palampur virus' /u/scratch2/scratch1/d/dkim/EuPathDB/NCBI-RefSeq-viral/viral.1.1.genomic.fna
+grep -n 'Tomato_leaf_curl_Palampur_virus' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+# Replace
+sed -i '1849s/.*/>organism=Tomato_leaf_curl_Palampur_virus_NC_010840.1 | version=Not_Reported | length=5481 | SO=_complete_genome/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+sed -i '1851s/.*/>organism=Tomato_leaf_curl_Palampur_virus_NC_010839.1 | version=Not_Reported | length=5481 | SO=_complete_genome/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+
+# Extract the sequence number and line number to use them for replacing the name of similar complete genomes
+grep 'Adult diarrheal rotavirus strain J19' /u/scratch2/scratch1/d/dkim/EuPathDB/NCBI-RefSeq-viral/viral.1.1.genomic.fna
+grep -n 'Adult_diarrheal_rotavirus_strain_J19' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+# Replace
+sed -i '8331s/.*/>organism=Adult_diarrheal_rotavirus_strain_J19_NC_007548.1 | version=Not_Reported | length=17961 | SO=_complete_genome/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+sed -i '8333s/.*/>organism=Adult_diarrheal_rotavirus_strain_J19_NC_007549.1 | version=Not_Reported | length=17961 | SO=_complete_genome/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+sed -i '8335s/.*/>organism=Adult_diarrheal_rotavirus_strain_J19_NC_007550.1 | version=Not_Reported | length=17961 | SO=_complete_genome/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+sed -i '8337s/.*/>organism=Adult_diarrheal_rotavirus_strain_J19_NC_007551.1 | version=Not_Reported | length=17961 | SO=_complete_genome/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+sed -i '8339s/.*/>organism=Adult_diarrheal_rotavirus_strain_J19_NC_007552.1 | version=Not_Reported | length=17961 | SO=_complete_genome/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+sed -i '8341s/.*/>organism=Adult_diarrheal_rotavirus_strain_J19_NC_007553.1 | version=Not_Reported | length=17961 | SO=_complete_genome/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+sed -i '8343s/.*/>organism=Adult_diarrheal_rotavirus_strain_J19_NC_007554.1 | version=Not_Reported | length=17961 | SO=_complete_genome/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+sed -i '8345s/.*/>organism=Adult_diarrheal_rotavirus_strain_J19_NC_007555.1 | version=Not_Reported | length=17961 | SO=_complete_genome/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+sed -i '8347s/.*/>organism=Adult_diarrheal_rotavirus_strain_J19_NC_007556.1 | version=Not_Reported | length=17961 | SO=_complete_genome/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+sed -i '8349s/.*/>organism=Adult_diarrheal_rotavirus_strain_J19_NC_007557.1 | version=Not_Reported | length=17961 | SO=_complete_genome/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+sed -i '8351s/.*/>organism=Adult_diarrheal_rotavirus_strain_J19_NC_007558.1 | version=Not_Reported | length=17961 | SO=_complete_genome/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+```
+
+## Generating the final MiCoP_DB.fasta and building the BWA index
+```
+cat /u/scratch2/scratch2/m/malser/MergedEuPathDB/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/MiCoP_DB.fasta
+module load bwa
+bwa index /u/scratch2/scratch2/m/malser/MergedEuPathDB/MiCoP_DB.fasta
 ```
 
 ## BWA-MEM K-mers of RefSeq to concatenated contigs of Eupath
