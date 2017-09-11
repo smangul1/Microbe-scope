@@ -1,0 +1,13 @@
+archaea\archaea.1.1.genomic.fna.gz\Sulfolobus_islandicus
+archaea\archaea.4.1.genomic.fna.gz\Haloarcula_californiae
+archaea\archaea.4.1.genomic.fna.gz\Sulfolobus_islandicus
+archaea\archaea.4.1.genomic.fna.gz\Aeropyrum_pernix
+archaea\archaea.4.1.genomic.fna.gz\Thermoproteus_tenax
+archaea\archaea.4.1.genomic.fna.gz\Sulfolobus_islandicus
+archaea\archaea.4.1.genomic.fna.gz\Thermococcus_prieurii
+archaea\archaea.4.1.genomic.fna.gz\Aeropyrum_pernix
+archaea\archaea.4.1.genomic.fna.gz\Haloarcula_hispanica
+archaea\archaea.4.1.genomic.fna.gz\Sulfolobus_islandicus
+archaea\archaea.5.1.genomic.fna.gz\Pyrococcus_abyssi
+archaea\archaea.5.1.genomic.fna.gz\Methanothermobacter_wolfeii
+archaea\archaea.5.1.genomic.fna.gz\Sulfolobus_islandicus
