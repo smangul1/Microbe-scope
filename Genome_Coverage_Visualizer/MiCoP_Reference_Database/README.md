@@ -73,7 +73,8 @@ grep -r '>' /u/scratch2/scratch2/m/malser/EuPathDB/NCBI-RefSeq-viral/ | awk -F '
 1. Download submit-RemoveRefSeqDuplicatedGenomes_bacteria.sh and CheckDuplicationFromRefSeqFolder.py
 2. Modify submit-RemoveRefSeqDuplicatedGenomes_bacteria.sh as needed (change email address, directories, and RefSeq folder name (e.g., replace the word "bacteria" with "archaea"))
 3. Submit the Job to UCLA Hoffman2
-4. The results will be one text file (contains the removed genomes) and one folder (RefSeq_filtered) in the same directory that contains the RefSeq folder 
+4. The results will be one text file (contains the removed genomes) and one folder (RefSeq_filtered) in the same directory that contains the RefSeq folder
+5. Summary reports of all genomes removed from NCBI-RefSeq that exist in the EuPathDB can be downloaded from: https://github.com/smangul1/miCoP/tree/master/Genome_Coverage_Visualizer/MiCoP_Reference_Database/Removed_Genomes_from_RefSeq
 ```
 qsub submit-RemoveRefSeqDuplicatedGenomes_bacteria.sh
 ```
