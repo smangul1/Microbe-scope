@@ -34,7 +34,7 @@ for query in queries:
 					if (len(splits.rstrip().split(','))==1):
 						SO="SO=Not_Reported"
 					else:
-						SO="SO="+splits.rstrip().split(',')[len(splits.rstrip().split(','))-1].replace(" ", "_")
+						SO="SO="+splits.rstrip().split(',')[len(splits.rstrip().split(','))-1].rstrip().replace(" ", "_")
 					LineNo = 1 + LineNo
 				try:
 					nextLine = next(f)
