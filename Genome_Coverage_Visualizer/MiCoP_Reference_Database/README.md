@@ -238,8 +238,9 @@ sed -i '8349s/.*/>organism=Adult_diarrheal_rotavirus_strain_J19_NC_007557.1 | ve
 sed -i '8351s/.*/>organism=Adult_diarrheal_rotavirus_strain_J19_NC_007558.1 | version=Not_Reported | length=17961 | SO=_complete_genome/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
 ```
 
-## Generating the final MiCoP_DB.fasta and building the BWA index
+## Building the BWA index and Generating the genome list covered by our database:
 ```
+# Building the BWA index
 module load bwa
 bwa index /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_amoebadb_ConcatContigs.fasta
 bwa index /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_cryptodb_ConcatContigs.fasta
@@ -252,6 +253,18 @@ bwa index /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_plasmodb_
 bwa index /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_toxodb_ConcatContigs.fasta
 bwa index /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_trichdb_ConcatContigs.fasta
 bwa index /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_tritrypdb_ConcatContigs.fasta
+# Generating the genome list covered by our database
+grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_amoebadb_ConcatContigs.fasta >> /u/scratch2/scratch2/m/malser/MergedEuPathDB/MiCoP_DB_RefList_perGenome.txt
+grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_cryptodb_ConcatContigs.fasta >> /u/scratch2/scratch2/m/malser/MergedEuPathDB/MiCoP_DB_RefList_perGenome.txt
+grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb_ConcatContigs.fasta >> /u/scratch2/scratch2/m/malser/MergedEuPathDB/MiCoP_DB_RefList_perGenome.txt
+grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_giardiadb_ConcatContigs.fasta >> /u/scratch2/scratch2/m/malser/MergedEuPathDB/MiCoP_DB_RefList_perGenome.txt
+grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_microsporidiadb_ConcatContigs.fasta >> /u/scratch2/scratch2/m/malser/MergedEuPathDB/MiCoP_DB_RefList_perGenome.txt
+grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta >> /u/scratch2/scratch2/m/malser/MergedEuPathDB/MiCoP_DB_RefList_perGenome.txt
+grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_piroplasmadb_ConcatContigs.fasta >> /u/scratch2/scratch2/m/malser/MergedEuPathDB/MiCoP_DB_RefList_perGenome.txt
+grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_plasmodb_ConcatContigs.fasta >> /u/scratch2/scratch2/m/malser/MergedEuPathDB/MiCoP_DB_RefList_perGenome.txt
+grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_toxodb_ConcatContigs.fasta >> /u/scratch2/scratch2/m/malser/MergedEuPathDB/MiCoP_DB_RefList_perGenome.txt
+grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_trichdb_ConcatContigs.fasta >> /u/scratch2/scratch2/m/malser/MergedEuPathDB/MiCoP_DB_RefList_perGenome.txt
+grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_tritrypdb_ConcatContigs.fasta >> /u/scratch2/scratch2/m/malser/MergedEuPathDB/MiCoP_DB_RefList_perGenome.txt
 ```
 
 ## BWA-MEM K-mers of RefSeq to concatenated contigs of Eupath
