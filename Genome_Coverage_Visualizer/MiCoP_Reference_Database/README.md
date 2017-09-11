@@ -234,7 +234,11 @@ grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_tritrypdb_
 ```
 
 ## Generate all nonoverlapping 30-mers from RefSeq, BWA-MEM them with the concatenated contigs of Eupath, and Generate Homology Information Folder
-1. Download "HomologyGenerator.sh" and use the following script. Replace archaea with one of the following: bacteria  complete  invertebrate  mitochondrion  other  plant  plasmid  plastid  protozoa  vertebrate_mammalian  vertebrate_other
+1. It takes a RefSeq file after removing all genome sequences that are shared with EuPathDB.  
+2. It then generates all seeds (or k-mers) that are of length 30 bp (the length is configurable in "NonoverlappingSeedGenerator.py").
+3. The script also removes all redundant seeds and keep only one. There are faster and more effiecient ways (such as maintaining a trie structure, commented in "NonoverlappingSeedGenerator.py") of doing the same job of the script, if and only if we can address the memory and execution time limitations imposed by UCLA-Hoffman2.
+4. It BWA-MEMs (fully mapped reads with an edit distance of zero) the seeds with our database built from EuPathDB and RefSeq-Viral. Based on the mapping locations, it generates the homology information folder.
+5. USAGE: Download "HomologyGenerator.sh" and use the following script. Replace archaea with one of the following: bacteria  complete  invertebrate  mitochondrion  other  plant  plasmid  plastid  protozoa  vertebrate_mammalian  vertebrate_other
 ```
 qrsh -l i,h_rt=24:00:00,h_data=25G
 module load python/3.6.1
