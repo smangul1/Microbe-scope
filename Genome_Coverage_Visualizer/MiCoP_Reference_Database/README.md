@@ -4,10 +4,8 @@
 3. Move NCBI-RefSeq-Viral folder from NCBI-RefSeq to EuPathDB
 4. Exclude NCBI-RefSeq-fungi from NCBI-RefSeq
 5. Exclude any organism from NCBI-RefSeq that is included in EuPathDB
-6. Generate all nonoverlapping K-mers of size 30bp from RefSeq
-7. Concat all contigs from EuPath and convert RefSeq-Viral from .fna into .fasta
-8. BWA-MEM K-mers of RefSeq to concatenated contigs of Eupath
-9. Generate Homology Information Folder
+6. Concat all contigs from EuPath and convert RefSeq-Viral from .fna into .fasta
+7. Generate all nonoverlapping 30-mers from RefSeq, BWA-MEM them with the concatenated contigs of Eupath, and Generate Homology Information Folder
 
 ## Download EuPathDB.org
 ```
@@ -90,38 +88,6 @@ qsub submit-RemoveRefSeqDuplicatedGenomes_bacteria_part1.sh
 qsub submit-RemoveRefSeqDuplicatedGenomes_bacteria_part2.sh
 qsub submit-RemoveRefSeqDuplicatedGenomes_bacteria_part3.sh
 qsub submit-RemoveRefSeqDuplicatedGenomes_bacteria_part4.sh
-```
-
-## Generate all nonoverlapping K-mers of size 30bp from RefSeq (change archaea to your target organism of the RefSeq, e.g., plant or mitochondrion)
-1. Run hoffman2 in interactive session mode
-```
-qrsh -l i,h_rt=24:00:00,h_data=25G
-```
-2. Save the shell script below to SeedGenerator.sh (change all directories and archaea folder into your target folders) 
-```
-dataDir="/u/scratch2/scratch1/d/dkim/NCBI-RefSeq_filtered/archaea"
-dataDirBasename=`basename $dataDir`		#archaea			
-dataDir="$dataDir/"						
-Subdirectory=$(ls $dataDir)
-for file in $Subdirectory
-do
-	if [ -s "/u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/${file%.*}.fasta" ] #if file exists, to avoid overwriting existing files 
-	then
-		echo "$file found."
-	else
-		if [ -s "$dataDir$file" ] # if file is not empty
-		then
-			python3 /u/project/zarlab/malser/MiCoP/Scripts/NonoverlappingSeedGenerator.py ${dataDir}${file} | awk '!seen[$0]++' | python3 /u/project/zarlab/malser/MiCoP/Scripts/FASTAformatter.py /dev/fd/0 ${file}> "/u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/${file%.*}.fasta"
-		fi
-	fi
-done
-```
-3. Run the SeedGenerator.sh from the interactive mode as follows
-```
-module load python/3.6.1
-sed -i -e 's/\r$//' /u/project/zarlab/malser/MiCoP/Scripts/SeedGenerator.sh
-chmod +x /u/project/zarlab/malser/MiCoP/Scripts/SeedGenerator.sh
-/u/project/zarlab/malser/MiCoP/Scripts/SeedGenerator.sh
 ```
 
 ## Concat all contigs from EuPath and convert RefSeq-Viral from .fna into .fasta
@@ -267,18 +233,14 @@ grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_trichdb_Co
 grep '>' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_tritrypdb_ConcatContigs.fasta >> /u/scratch2/scratch2/m/malser/MergedEuPathDB/MiCoP_DB_RefList_perGenome.txt
 ```
 
-## BWA-MEM K-mers of RefSeq to concatenated contigs of Eupath
+## Generate all nonoverlapping 30-mers from RefSeq, BWA-MEM them with the concatenated contigs of Eupath, and Generate Homology Information Folder
+1. Download "HomologyGenerator.sh" and use the following script. Replace archaea with one of the following: bacteria  complete  invertebrate  mitochondrion  other  plant  plasmid  plastid  protozoa  vertebrate_mammalian  vertebrate_other
 ```
-bwa index /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb_ConcatContigs.fasta
-bwa mem /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb_ConcatContigs.fasta /u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/plant.100.1.genomic.fasta  | samtools view -bS - | samtools view -b -F 4  - > /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb_ConcatContigs.bam
-```
-
-## [Optional] Keep fully mapped reads with an edit distance of 0 (exact matching)
-```
-samtools view /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb_ConcatContigs.bam | awk '$12=="NM:i:0"' | awk '$6=="30M"'
-```
-
-## Generate Homology Information Folder
-```
-samtools view /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb_ConcatContigs.bam | python3 /u/project/zarlab/malser/MiCoP/Scripts/homology_per_genome.py /dev/fd/0 /u/scratch2/scratch2/m/malser/HomologyInformation/
+qrsh -l i,h_rt=24:00:00,h_data=25G
+module load python/3.6.1
+module load bwa
+module load samtools
+sed -i -e 's/\r$//' /u/project/zarlab/malser/MiCoP/Scripts/HomologyGenerator.sh
+chmod +x /u/project/zarlab/malser/MiCoP/Scripts/HomologyGenerator.sh
+/u/project/zarlab/malser/MiCoP/Scripts/HomologyGenerator.sh archaea
 ```
