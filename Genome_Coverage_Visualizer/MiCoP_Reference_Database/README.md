@@ -240,9 +240,18 @@ sed -i '8351s/.*/>organism=Adult_diarrheal_rotavirus_strain_J19_NC_007558.1 | ve
 
 ## Generating the final MiCoP_DB.fasta and building the BWA index
 ```
-cat /u/scratch2/scratch2/m/malser/MergedEuPathDB/* > /u/scratch2/scratch2/m/malser/MergedEuPathDB/MiCoP_DB.fasta
 module load bwa
-bwa index /u/scratch2/scratch2/m/malser/MergedEuPathDB/MiCoP_DB.fasta
+bwa index /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_amoebadb_ConcatContigs.fasta
+bwa index /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_cryptodb_ConcatContigs.fasta
+bwa index /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb_ConcatContigs.fasta
+bwa index /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_giardiadb_ConcatContigs.fasta
+bwa index /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_microsporidiadb_ConcatContigs.fasta
+bwa index /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
+bwa index /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_piroplasmadb_ConcatContigs.fasta
+bwa index /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_plasmodb_ConcatContigs.fasta
+bwa index /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_toxodb_ConcatContigs.fasta
+bwa index /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_trichdb_ConcatContigs.fasta
+bwa index /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_tritrypdb_ConcatContigs.fasta
 ```
 
 ## BWA-MEM K-mers of RefSeq to concatenated contigs of Eupath
