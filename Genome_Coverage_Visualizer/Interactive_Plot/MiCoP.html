@@ -128,7 +128,7 @@
 					else if (lineNo == 1) {
 						options.subtitle.text= line;
 						var items = line.split('--');
-						if (items.length==6) {
+						if (items.length==8) {
 							document.getElementById("TBa").innerHTML ="Number";
 							document.getElementById("TBb").innerHTML ="Coverage Percentage (%)";
 							document.getElementById("TBc").innerHTML ="Coverage in Numbers (bp)";
@@ -144,6 +144,52 @@
 							document.getElementById("TBm").innerHTML = items[4].split('#=')[1];
 							document.getElementById("TBn").innerHTML = items[5].split('=')[1].split('(')[1].split(')')[0];
 							document.getElementById("TBo").innerHTML = items[5].split('=')[1].split('(')[0];
+							document.getElementById("TBp").innerHTML ="RefSeq homologous reads:";
+							document.getElementById("TBq").innerHTML = items[6].split('#=')[1];
+							document.getElementById("TBr").innerHTML = items[7].split('=')[1].split('(')[1].split(')')[0];
+							document.getElementById("TBs").innerHTML = items[7].split('=')[1].split('(')[0];
+						}
+						else if ( items.length==6 && (items[2].split('#=')[0].split('(')[1][0]=="w") ) {
+							document.getElementById("TBa").innerHTML ="Number";
+							document.getElementById("TBb").innerHTML ="Coverage Percentage (%)";
+							document.getElementById("TBc").innerHTML ="Coverage in Numbers (bp)";
+							document.getElementById("TBd").innerHTML ="Unique Read:";
+							document.getElementById("TBe").innerHTML = items[0].split('=')[1];
+							document.getElementById("TBf").innerHTML = items[1].split('=')[1].split('(')[1].split(')')[0];
+							document.getElementById("TBg").innerHTML = items[1].split('=')[1].split('(')[0];
+							document.getElementById("TBh").innerHTML ="Multi-Mapped Read within a genome:";
+							document.getElementById("TBi").innerHTML = items[2].split('#=')[1];
+							document.getElementById("TBj").innerHTML = items[3].split('=')[1].split('(')[1].split(')')[0];
+							document.getElementById("TBk").innerHTML = items[3].split('=')[1].split('(')[0];
+							document.getElementById("TBl").innerHTML ="Multi-Mapped Read across genomes:";
+							document.getElementById("TBm").innerHTML = "-";
+							document.getElementById("TBn").innerHTML = "-";
+							document.getElementById("TBo").innerHTML = "-";
+							document.getElementById("TBp").innerHTML ="RefSeq homologous reads:";
+							document.getElementById("TBq").innerHTML = items[4].split('#=')[1];
+							document.getElementById("TBr").innerHTML = items[5].split('=')[1].split('(')[1].split(')')[0];
+							document.getElementById("TBs").innerHTML = items[5].split('=')[1].split('(')[0];
+						}
+						else if (items.length==6 &&  (items[2].split('#=')[0].split('(')[1][0]=="a") ) {
+							document.getElementById("TBa").innerHTML ="Number";
+							document.getElementById("TBb").innerHTML ="Coverage Percentage (%)";
+							document.getElementById("TBc").innerHTML ="Coverage in Numbers (bp)";
+							document.getElementById("TBd").innerHTML ="Unique Read:";
+							document.getElementById("TBe").innerHTML = items[0].split('=')[1];
+							document.getElementById("TBf").innerHTML = items[1].split('=')[1].split('(')[1].split(')')[0];
+							document.getElementById("TBg").innerHTML = items[1].split('=')[1].split('(')[0];
+							document.getElementById("TBh").innerHTML ="Multi-Mapped Read within a genome:";
+							document.getElementById("TBi").innerHTML = "-";
+							document.getElementById("TBj").innerHTML = "-";
+							document.getElementById("TBk").innerHTML = "-";
+							document.getElementById("TBl").innerHTML ="Multi-Mapped Read across genomes:";
+							document.getElementById("TBm").innerHTML = items[2].split('#=')[1];
+							document.getElementById("TBn").innerHTML = items[3].split('=')[1].split('(')[1].split(')')[0];
+							document.getElementById("TBo").innerHTML = items[3].split('=')[1].split('(')[0];
+							document.getElementById("TBp").innerHTML ="RefSeq homologous reads:";
+							document.getElementById("TBq").innerHTML = items[4].split('#=')[1];
+							document.getElementById("TBr").innerHTML = items[5].split('=')[1].split('(')[1].split(')')[0];
+							document.getElementById("TBs").innerHTML = items[5].split('=')[1].split('(')[0];
 						}
 						else if ( items.length==5 && (items[2].split('#=')[0].split('(')[1][0]=="w") ) {
 							document.getElementById("TBa").innerHTML ="Number";
@@ -161,6 +207,10 @@
 							document.getElementById("TBm").innerHTML = "-";
 							document.getElementById("TBn").innerHTML = "-";
 							document.getElementById("TBo").innerHTML = "-";
+							document.getElementById("TBp").innerHTML ="RefSeq homologous reads:";
+							document.getElementById("TBq").innerHTML = "-";
+							document.getElementById("TBr").innerHTML = "-";
+							document.getElementById("TBs").innerHTML = "-";
 						}
 						else if (items.length==5 &&  (items[2].split('#=')[0].split('(')[1][0]=="a") ) {
 							document.getElementById("TBa").innerHTML ="Number";
@@ -178,6 +228,10 @@
 							document.getElementById("TBm").innerHTML = items[2].split('#=')[1];
 							document.getElementById("TBn").innerHTML = items[3].split('=')[1].split('(')[1].split(')')[0];
 							document.getElementById("TBo").innerHTML = items[3].split('=')[1].split('(')[0];
+							document.getElementById("TBp").innerHTML ="RefSeq homologous reads:";
+							document.getElementById("TBq").innerHTML = "-";
+							document.getElementById("TBr").innerHTML = "-";
+							document.getElementById("TBs").innerHTML = "-";
 						}
 					}
 					// the rest of the lines contain data with their name in the first position
@@ -355,6 +409,12 @@
 				<td class="tg-cell" id="TBm"></td>
 				<td class="tg-cell" id="TBn"></td>
 				<td class="tg-cell" id="TBo"></td>
+			</tr>
+			<tr>
+				<td class="tg-cellRight" id="TBp"></td>
+				<td class="tg-cell" id="TBq"></td>
+				<td class="tg-cell" id="TBr"></td>
+				<td class="tg-cell" id="TBs"></td>
 			</tr>
 		</table>
 	</div>
