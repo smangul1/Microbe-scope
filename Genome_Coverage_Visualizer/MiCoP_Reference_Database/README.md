@@ -205,6 +205,12 @@ sed -i '8349s/.*/>organism=Adult_diarrheal_rotavirus_strain_J19_NC_007557.1 | ve
 sed -i '8351s/.*/>organism=Adult_diarrheal_rotavirus_strain_J19_NC_007558.1 | version=Not_Reported | length=17961 | SO=_complete_genome/' /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta
 ```
 
+## Refine the name of some organisms:
+Some organism names in the .fasta files contain slashes. This causes a problem when we generate .csv as we use the organism name as .csv file name. So we replace them by underscore '_'. 
+```
+sed -i 's/\//_/g' /u/scratch2/scratch2/m/malser/MergedEuPathDB/*.fasta
+```
+
 ## Building the BWA index and Generating the genome list covered by our database:
 ```
 # Building the BWA index
