@@ -18,5 +18,5 @@ module load samtools
 sed -i -e 's/\r$//' /u/project/zarlab/malser/MiCoP/Scripts/MiCoP_GenomeCoverageVisualizer.sh
 chmod +x /u/project/zarlab/malser/MiCoP/Scripts/MiCoP_GenomeCoverageVisualizer.sh
 
-/u/project/zarlab/malser/MiCoP/Scripts/MiCoP_GenomeCoverageVisualizer.sh /u/scratch2/scratch2/m/malser/MergedEuPathDB /u/project/zarlab/malser/MiCoP/MiCoP_SRR3546361/SRR3546361.fastq /u/project/zarlab/malser/MiCoP/Scripts /u/project/zarlab/malser/MiCoP 1 /u/scratch2/scratch2/m/malser/HomologyInformation/ 30
+/u/project/zarlab/malser/MiCoP/Scripts/MiCoP_GenomeCoverageVisualizer.sh /u/scratch2/scratch2/m/malser/MergedEuPathDB /u/project/zarlab/malser/MiCoP/MiCoP_SRR3546361/SRR3546361.fastq /u/project/zarlab/malser/MiCoP/Scripts /u/project/zarlab/malser/MiCoP 200 /u/scratch2/scratch2/m/malser/HomologyInformation/ 30
 ```
