@@ -158,7 +158,7 @@ if os.path.getsize(str(args.bwa)) > 0:
 				##
 				f = open(outputFile, 'w')
 				DataName=str(infile).split('/')
-				ChartTitle=str(DataName[len(DataName)-1].split('_')[1])+' mapped to '+str(DataName[len(DataName)-1].split('_')[0])+' ('+header+')'+'\n'
+				ChartTitle=str(DataName[len(DataName)-1].split('_')[0])+' mapped to '+header+'\n'
 				f.write(ChartTitle)
 				ChartSubtitle=rcat+str(' %s' % '{:,d}'.format(int(int(UniqueReads)-1)))+' -- '+'Coverage = '+str('{:,d}'.format(coverage))+'bp out of '+str('{:,d}'.format(location_max))+'bp' +' ('+ str('%.2f%%' % float(float(float(coverage)/float(location_max))*100.0))+')'+' -- '+'Window Size='+ '{:,d}'.format(window_size)+'\n'
 				f.write(ChartSubtitle)
@@ -276,7 +276,7 @@ if os.path.getsize(str(args.bwa)) > 0:
 		##
 		f = open(outputFile, 'w')
 		DataName=str(infile).split('/')
-		ChartTitle=str(DataName[len(DataName)-1].split('_')[1])+' mapped to '+str(DataName[len(DataName)-1].split('_')[0])+' ('+header+')'+'\n'
+		ChartTitle=str(DataName[len(DataName)-1].split('_')[0])+' mapped to '+header+'\n'
 		f.write(ChartTitle)
 		ChartSubtitle=rcat+str(' %s' % '{:,d}'.format(int(int(UniqueReads)-1)))+' -- '+'Coverage = '+str('{:,d}'.format(coverage))+'bp out of '+str('{:,d}'.format(location_max))+'bp' +' ('+ str('%.2f%%' % float(float(float(coverage)/float(location_max))*100.0)+')')+' -- '+'Window Size='+ '{:,d}'.format(window_size)+'\n'
 		f.write(ChartSubtitle)
