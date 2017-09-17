@@ -8,7 +8,7 @@ set -e  # exit immediately if error occurs
 RefSeqFolder=$1
 dataDir="/u/scratch2/scratch1/d/dkim/NCBI-RefSeq_filtered/$RefSeqFolder/"
 
-Subdirectory=$(ls $dataDir)
+Subdirectory=$(ls -r $dataDir)
 for file in $Subdirectory
 do
 	if [ -s "/u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/${file%.*}.fasta" ] #if file exists, to avoid overwriting existing files 
