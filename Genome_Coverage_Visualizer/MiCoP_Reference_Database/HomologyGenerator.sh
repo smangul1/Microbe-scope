@@ -21,38 +21,71 @@ do
 			python3 /u/project/zarlab/malser/MiCoP/Scripts/NonoverlappingSeedGenerator.py ${dataDir}${file} | awk '!seen[$0]++' | python3 /u/project/zarlab/malser/MiCoP/Scripts/FASTAformatter.py /dev/fd/0 ${file} > "/u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/${file%.*}.fasta"
 			# BWA-MEM for EuPathDB and 30bp-seeds from RefSeq
 			bwa mem /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_amoebadb_ConcatContigs.fasta "/u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/${file%.*}.fasta" | samtools view -bS - | samtools view -F 4 - > "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam"
-			# Extract mapping location for each organism
-			python3 /u/project/zarlab/malser/MiCoP/Scripts/homology_per_genome.py "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" /u/scratch2/scratch2/m/malser/HomologyInformation/
+			if [ -s "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" ]
+			then 
+			   # Extract mapping location for each organism
+				python3 /u/project/zarlab/malser/MiCoP/Scripts/homology_per_genome.py "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" /u/scratch2/scratch2/m/malser/HomologyInformation/
+			fi
 			bwa mem /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_cryptodb_ConcatContigs.fasta "/u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/${file%.*}.fasta" | samtools view -bS - | samtools view -F 4 - > "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam"
-			# Extract mapping location for each organism
-			python3 /u/project/zarlab/malser/MiCoP/Scripts/homology_per_genome.py "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" /u/scratch2/scratch2/m/malser/HomologyInformation/
+			if [ -s "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" ]
+			then 
+			   # Extract mapping location for each organism
+				python3 /u/project/zarlab/malser/MiCoP/Scripts/homology_per_genome.py "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" /u/scratch2/scratch2/m/malser/HomologyInformation/
+			fi
 			bwa mem /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_fungidb_ConcatContigs.fasta "/u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/${file%.*}.fasta" | samtools view -bS - | samtools view -F 4 - > "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam"
-			# Extract mapping location for each organism
-			python3 /u/project/zarlab/malser/MiCoP/Scripts/homology_per_genome.py "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" /u/scratch2/scratch2/m/malser/HomologyInformation/
+			if [ -s "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" ]
+			then 
+			   # Extract mapping location for each organism
+				python3 /u/project/zarlab/malser/MiCoP/Scripts/homology_per_genome.py "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" /u/scratch2/scratch2/m/malser/HomologyInformation/
+			fi
 			bwa mem /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_giardiadb_ConcatContigs.fasta "/u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/${file%.*}.fasta" | samtools view -bS - | samtools view -F 4 - > "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam"
-			# Extract mapping location for each organism
-			python3 /u/project/zarlab/malser/MiCoP/Scripts/homology_per_genome.py "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" /u/scratch2/scratch2/m/malser/HomologyInformation/
+			if [ -s "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" ]
+			then 
+			   # Extract mapping location for each organism
+				python3 /u/project/zarlab/malser/MiCoP/Scripts/homology_per_genome.py "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" /u/scratch2/scratch2/m/malser/HomologyInformation/
+			fi
 			bwa mem /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_microsporidiadb_ConcatContigs.fasta "/u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/${file%.*}.fasta" | samtools view -bS - | samtools view -F 4 - > "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam"
-			# Extract mapping location for each organism
-			python3 /u/project/zarlab/malser/MiCoP/Scripts/homology_per_genome.py "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" /u/scratch2/scratch2/m/malser/HomologyInformation/
+			if [ -s "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" ]
+			then 
+			   # Extract mapping location for each organism
+				python3 /u/project/zarlab/malser/MiCoP/Scripts/homology_per_genome.py "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" /u/scratch2/scratch2/m/malser/HomologyInformation/
+			fi
 			bwa mem /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta "/u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/${file%.*}.fasta" | samtools view -bS - | samtools view -F 4 - > "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam"
-			# Extract mapping location for each organism
-			python3 /u/project/zarlab/malser/MiCoP/Scripts/homology_per_genome.py "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" /u/scratch2/scratch2/m/malser/HomologyInformation/
+			if [ -s "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" ]
+			then 
+			   # Extract mapping location for each organism
+				python3 /u/project/zarlab/malser/MiCoP/Scripts/homology_per_genome.py "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" /u/scratch2/scratch2/m/malser/HomologyInformation/
+			fi
 			bwa mem /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_piroplasmadb_ConcatContigs.fasta "/u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/${file%.*}.fasta" | samtools view -bS - | samtools view -F 4 - > "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam"
-			# Extract mapping location for each organism
-			python3 /u/project/zarlab/malser/MiCoP/Scripts/homology_per_genome.py "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" /u/scratch2/scratch2/m/malser/HomologyInformation/
+			if [ -s "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" ]
+			then 
+			   # Extract mapping location for each organism
+				python3 /u/project/zarlab/malser/MiCoP/Scripts/homology_per_genome.py "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" /u/scratch2/scratch2/m/malser/HomologyInformation/
+			fi
 			bwa mem /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_plasmodb_ConcatContigs.fasta "/u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/${file%.*}.fasta" | samtools view -bS - | samtools view -F 4 - > "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam"
-			# Extract mapping location for each organism
-			python3 /u/project/zarlab/malser/MiCoP/Scripts/homology_per_genome.py "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" /u/scratch2/scratch2/m/malser/HomologyInformation/
+			if [ -s "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" ]
+			then 
+			   # Extract mapping location for each organism
+				python3 /u/project/zarlab/malser/MiCoP/Scripts/homology_per_genome.py "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" /u/scratch2/scratch2/m/malser/HomologyInformation/
+			fi
 			bwa mem /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_toxodb_ConcatContigs.fasta "/u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/${file%.*}.fasta" | samtools view -bS - | samtools view -F 4 - > "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam"
-			# Extract mapping location for each organism
-			python3 /u/project/zarlab/malser/MiCoP/Scripts/homology_per_genome.py "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" /u/scratch2/scratch2/m/malser/HomologyInformation/
+			if [ -s "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" ]
+			then 
+			   # Extract mapping location for each organism
+				python3 /u/project/zarlab/malser/MiCoP/Scripts/homology_per_genome.py "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" /u/scratch2/scratch2/m/malser/HomologyInformation/
+			fi
 			bwa mem /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_trichdb_ConcatContigs.fasta "/u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/${file%.*}.fasta" | samtools view -bS - | samtools view -F 4 - > "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam"
-			# Extract mapping location for each organism
-			python3 /u/project/zarlab/malser/MiCoP/Scripts/homology_per_genome.py "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" /u/scratch2/scratch2/m/malser/HomologyInformation/
+			if [ -s "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" ]
+			then 
+			   # Extract mapping location for each organism
+				python3 /u/project/zarlab/malser/MiCoP/Scripts/homology_per_genome.py "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" /u/scratch2/scratch2/m/malser/HomologyInformation/
+			fi
 			bwa mem /u/scratch2/scratch2/m/malser/MergedEuPathDB/EuPathDB_Merged_tritrypdb_ConcatContigs.fasta "/u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/${file%.*}.fasta" | samtools view -bS - | samtools view -F 4 - > "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam"
-			# Extract mapping location for each organism
-			python3 /u/project/zarlab/malser/MiCoP/Scripts/homology_per_genome.py "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" /u/scratch2/scratch2/m/malser/HomologyInformation/
+			if [ -s "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" ]
+			then 
+			   # Extract mapping location for each organism
+				python3 /u/project/zarlab/malser/MiCoP/Scripts/homology_per_genome.py "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam" /u/scratch2/scratch2/m/malser/HomologyInformation/
+			fi
 			rm -f "/u/scratch2/scratch2/m/malser/MergedEuPathDB/BWA-MEM_EuPathDB_${file%.*}.sam"
 			echo "Done" > "/u/scratch2/scratch2/m/malser/NCBI-RefSeq_filtered_Seeds/${file%.*}.fasta"
 		fi
