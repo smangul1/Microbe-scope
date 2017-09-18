@@ -91,6 +91,10 @@ for file in os.listdir(str(mypath)):
 						#sys.stdout.write("%s\t%d\t%d\t%f\n" % (header, window_start, window_end-1, val / float(window_size)))
 						window_start = window_end
 						val = 0
+				if window_end>window_start: # in case last window is less than window size
+					left_windows.append(int(window_start))
+					right_windows.append(int(window_end-1))
+					radii.append(float(float(val) / float(window_end - window_start)))
 				##################################
 				
 				
@@ -107,7 +111,6 @@ for file in os.listdir(str(mypath)):
 						o.write(line.rstrip()+',RefSeq homologous reads\n')
 					else:
 						splits = line.strip().split(',')
-						o.write(splits[0])	
 						if (str(splits[1].strip().rstrip())=="0.0"):
 							a=",null"
 						else:
@@ -127,7 +130,7 @@ for file in os.listdir(str(mypath)):
 						if (a==",null" and b==",null" and c==",null" and d==",null"):
 							continue
 						else:
-							o.write(a+b+c+d+'\n')
+							o.write(splits[0]+a+b+c+d+'\n')
 					LineIndex=LineIndex+1
 				t.close()
 				o.close()
@@ -147,7 +150,6 @@ for file in os.listdir(str(mypath)):
 						o.write(line.rstrip()+',RefSeq homologous reads\n')
 					else:
 						splits = line.strip().split(',')
-						o.write(splits[0])	
 						if (str(splits[1].strip().rstrip())=="0.0"):
 							a=",null"
 						else:
@@ -164,7 +166,7 @@ for file in os.listdir(str(mypath)):
 						if (a==",null" and b==",null" and c==",null"):
 							continue
 						else:
-							o.write(a+b+c+d+'\n')
+							o.write(splits[0]+a+b+c+d+'\n')
 						
 					LineIndex=LineIndex+1
 				t.close()
