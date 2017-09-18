@@ -71,30 +71,30 @@ KmerSize=$7                                  # 30
 #########################################################################
 # BWA-MEM Mapping
 echo "First step: BWA-MEM Mapping, & Sorting"
-# bwa mem -a -v 0 ${metagenome}EuPathDB_Merged_amoebadb_ConcatContigs.fasta ${sample} | awk '(!/^ *@/) && ($3!="*")' > ${dataDir}${sampleFName}_BWA-MEM.sam
-# bwa mem -a -v 0 ${metagenome}EuPathDB_Merged_cryptodb_ConcatContigs.fasta ${sample} | awk '(!/^ *@/) && ($3!="*")' >> ${dataDir}${sampleFName}_BWA-MEM.sam
-# bwa mem -a -v 0 ${metagenome}EuPathDB_Merged_fungidb_ConcatContigs.fasta ${sample} | awk '(!/^ *@/) && ($3!="*")' >> ${dataDir}${sampleFName}_BWA-MEM.sam
-# bwa mem -a -v 0 ${metagenome}EuPathDB_Merged_giardiadb_ConcatContigs.fasta ${sample} | awk '(!/^ *@/) && ($3!="*")' >> ${dataDir}${sampleFName}_BWA-MEM.sam
-# bwa mem -a -v 0 ${metagenome}EuPathDB_Merged_microsporidiadb_ConcatContigs.fasta ${sample} | awk '(!/^ *@/) && ($3!="*")' >> ${dataDir}${sampleFName}_BWA-MEM.sam
-# bwa mem -a -v 0 ${metagenome}EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta ${sample} | awk '(!/^ *@/) && ($3!="*")' >> ${dataDir}${sampleFName}_BWA-MEM.sam
-# bwa mem -a -v 0 ${metagenome}EuPathDB_Merged_piroplasmadb_ConcatContigs.fasta ${sample} | awk '(!/^ *@/) && ($3!="*")' >> ${dataDir}${sampleFName}_BWA-MEM.sam
-# bwa mem -a -v 0 ${metagenome}EuPathDB_Merged_plasmodb_ConcatContigs.fasta ${sample} | awk '(!/^ *@/) && ($3!="*")' >> ${dataDir}${sampleFName}_BWA-MEM.sam
-# bwa mem -a -v 0 ${metagenome}EuPathDB_Merged_toxodb_ConcatContigs.fasta ${sample} | awk '(!/^ *@/) && ($3!="*")' >> ${dataDir}${sampleFName}_BWA-MEM.sam
-# bwa mem -a -v 0 ${metagenome}EuPathDB_Merged_trichdb_ConcatContigs.fasta ${sample} | awk '(!/^ *@/) && ($3!="*")' >> ${dataDir}${sampleFName}_BWA-MEM.sam
-# bwa mem -a -v 0 ${metagenome}EuPathDB_Merged_tritrypdb_ConcatContigs.fasta ${sample} | awk '(!/^ *@/) && ($3!="*")' >> ${dataDir}${sampleFName}_BWA-MEM.sam
-# # Sort .sam content
-# sort -t$'\t' -V -k 1,1n -V -k 3,3 ${dataDir}${sampleFName}_BWA-MEM.sam > ${dataDir}${sampleFName}_BWA-MEM_sorted.sam
-# #########################################################################
-# # Extract the involved genomes out of all genomes in our database
-# awk '{print $3}' ${dataDir}${sampleFName}_BWA-MEM_sorted.sam | uniq > ${dataDir}${sampleFName}_organism_list.txt
-# grep -Fwf ${dataDir}${sampleFName}_organism_list.txt ${metagenome}MiCoP_DB_RefList_perGenome.txt > ${dataDir}${sampleFName}_MiCoP_DB_RefList_perGenome.txt
+bwa mem -a -v 0 ${metagenome}EuPathDB_Merged_amoebadb_ConcatContigs.fasta ${sample} | awk '(!/^ *@/) && ($3!="*")' > ${dataDir}${sampleFName}_BWA-MEM.sam
+bwa mem -a -v 0 ${metagenome}EuPathDB_Merged_cryptodb_ConcatContigs.fasta ${sample} | awk '(!/^ *@/) && ($3!="*")' >> ${dataDir}${sampleFName}_BWA-MEM.sam
+bwa mem -a -v 0 ${metagenome}EuPathDB_Merged_fungidb_ConcatContigs.fasta ${sample} | awk '(!/^ *@/) && ($3!="*")' >> ${dataDir}${sampleFName}_BWA-MEM.sam
+bwa mem -a -v 0 ${metagenome}EuPathDB_Merged_giardiadb_ConcatContigs.fasta ${sample} | awk '(!/^ *@/) && ($3!="*")' >> ${dataDir}${sampleFName}_BWA-MEM.sam
+bwa mem -a -v 0 ${metagenome}EuPathDB_Merged_microsporidiadb_ConcatContigs.fasta ${sample} | awk '(!/^ *@/) && ($3!="*")' >> ${dataDir}${sampleFName}_BWA-MEM.sam
+bwa mem -a -v 0 ${metagenome}EuPathDB_Merged_NCBI-RefSeq-viral_ConcatContigs.fasta ${sample} | awk '(!/^ *@/) && ($3!="*")' >> ${dataDir}${sampleFName}_BWA-MEM.sam
+bwa mem -a -v 0 ${metagenome}EuPathDB_Merged_piroplasmadb_ConcatContigs.fasta ${sample} | awk '(!/^ *@/) && ($3!="*")' >> ${dataDir}${sampleFName}_BWA-MEM.sam
+bwa mem -a -v 0 ${metagenome}EuPathDB_Merged_plasmodb_ConcatContigs.fasta ${sample} | awk '(!/^ *@/) && ($3!="*")' >> ${dataDir}${sampleFName}_BWA-MEM.sam
+bwa mem -a -v 0 ${metagenome}EuPathDB_Merged_toxodb_ConcatContigs.fasta ${sample} | awk '(!/^ *@/) && ($3!="*")' >> ${dataDir}${sampleFName}_BWA-MEM.sam
+bwa mem -a -v 0 ${metagenome}EuPathDB_Merged_trichdb_ConcatContigs.fasta ${sample} | awk '(!/^ *@/) && ($3!="*")' >> ${dataDir}${sampleFName}_BWA-MEM.sam
+bwa mem -a -v 0 ${metagenome}EuPathDB_Merged_tritrypdb_ConcatContigs.fasta ${sample} | awk '(!/^ *@/) && ($3!="*")' >> ${dataDir}${sampleFName}_BWA-MEM.sam
+# Sort .sam content
+sort -t$'\t' -V -k 1,1n -V -k 3,3 ${dataDir}${sampleFName}_BWA-MEM.sam > ${dataDir}${sampleFName}_BWA-MEM_sorted.sam
+#########################################################################
+# Extract the involved genomes out of all genomes in our database
+awk '{print $3}' ${dataDir}${sampleFName}_BWA-MEM_sorted.sam | uniq > ${dataDir}${sampleFName}_organism_list.txt
+grep -Fwf ${dataDir}${sampleFName}_organism_list.txt ${metagenome}MiCoP_DB_RefList_perGenome.txt > ${dataDir}${sampleFName}_MiCoP_DB_RefList_perGenome.txt
 #########################################################################
 # Unique Read
 echo "Second step: Unique Read Coverage"
 #samtools view ${dataDir}${sampleFName}_Sorted.bam| python3 ${scriptDir}/ReadClassifier_and_Filter.py /dev/fd/0  1 | sort -t$'\t' -V -k 3,3 > ${dataDir}${sampleFName}_UniqueReads_Sorted.sam
 # The command below works well if we dont sort first, but since we sort above then the second command is much faster
 # awk 'BEGIN { FS="\t" } { c[$1]++; l[$1,c[$1]]=$0 } END { for (i in c) { if (c[i] == 1) for (j = 1; j <= c[i]; j++) print l[i,j] } }' 
-#awk ' $1 != prev { if (count == 1) print line; count = 0 } { prev=$1; line = $0; ++count } END { if (count == 1) print }' ${dataDir}${sampleFName}_BWA-MEM_sorted.sam | sort -t$'\t' -k 3,3 > ${dataDir}${sampleFName}_UniqueReads_Sorted.sam 
+awk ' $1 != prev { if (count == 1) print line; count = 0 } { prev=$1; line = $0; ++count } END { if (count == 1) print }' ${dataDir}${sampleFName}_BWA-MEM_sorted.sam | sort -t$'\t' -k 3,3 > ${dataDir}${sampleFName}_UniqueReads_Sorted.sam 
 
 if [ -s ${dataDir}${sampleFName}_UniqueReads_Sorted.sam ]
 then
@@ -102,12 +102,12 @@ then
 	#########################################################################
 	# Multimapped Read (within genome)
 	echo "Third step: Multimapped Read (within genome) Coverage"
-	#python3 ${scriptDir}/ReadClassifier_and_Filter.py ${dataDir}${sampleFName}_BWA-MEM_sorted.sam 2 | sort -t$'\t' -V -k 3,3 > ${dataDir}${sampleFName}_MMWithinReads_Sorted.sam
+	python3 ${scriptDir}/ReadClassifier_and_Filter.py ${dataDir}${sampleFName}_BWA-MEM_sorted.sam 2 | sort -t$'\t' -V -k 3,3 > ${dataDir}${sampleFName}_MMWithinReads_Sorted.sam
 	python3 ${scriptDir}/CoveragePlot_HighChartsSingleCSVperGenome.py ${dataDir}${sampleFName}_MMWithinReads_Sorted.sam ${dataDir}${sampleFName}_MiCoP_DB_RefList_perGenome.txt ${windowSize} 2 ${dataDir}
 	#########################################################################
 	# Multimapped Read (across genome)
 	echo "Four step: Multimapped Read (across genome) Coverage"
-	#python3 ${scriptDir}/ReadClassifier_and_Filter.py ${dataDir}${sampleFName}_BWA-MEM_sorted.sam 3 | sort -t$'\t' -V -k 3,3 > ${dataDir}${sampleFName}_MMAcrossReads_Sorted.sam
+	python3 ${scriptDir}/ReadClassifier_and_Filter.py ${dataDir}${sampleFName}_BWA-MEM_sorted.sam 3 | sort -t$'\t' -V -k 3,3 > ${dataDir}${sampleFName}_MMAcrossReads_Sorted.sam
 	python3 ${scriptDir}/CoveragePlot_HighChartsSingleCSVperGenome.py ${dataDir}${sampleFName}_MMAcrossReads_Sorted.sam ${dataDir}${sampleFName}_MiCoP_DB_RefList_perGenome.txt ${windowSize} 3 ${dataDir}
 	#########################################################################
 	# Homologous Read Coverage and Finalizing the output .csv files
