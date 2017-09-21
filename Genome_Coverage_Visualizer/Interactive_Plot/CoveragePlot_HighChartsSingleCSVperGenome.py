@@ -233,6 +233,11 @@ if os.path.getsize(str(args.bwa)) > 0:
 			#sys.stdout.write("%s\t%d\t%d\t%f\n" % (header, window_start, window_end-1, val / float(window_size)))
 			window_start = window_end
 			val = 0
+	if window_end>window_start: # in case last window is less than window size
+		left_windows.append(int(window_start))
+		right_windows.append(int(window_end-1))
+		radii.append(float(float(val) / float(window_end - window_start)))
+		
 	coverage_percentage=((int(coverage)/int(location_max))*100)
 	header = header.split('=')[1]
 	##################################
