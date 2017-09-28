@@ -4,7 +4,7 @@
 3. Move NCBI-RefSeq-Viral folder from NCBI-RefSeq to EuPathDB
 4. Exclude NCBI-RefSeq-fungi from NCBI-RefSeq
 5. Exclude any organism from NCBI-RefSeq that is included in EuPathDB
-6. Concat all contigs from EuPath and convert RefSeq-Viral from .fna into .fasta
+6. Concat all contigs from EuPath and convert NCBI-RefSeq-Viral from .fna into .fasta
 7. Generate all nonoverlapping 30-mers from RefSeq, BWA-MEM them with the concatenated contigs of Eupath, and Generate Homology Information Folder
 8. Generate the start and end coordinates of homologous regions.
 
@@ -92,7 +92,7 @@ qsub submit-RemoveRefSeqDuplicatedGenomes_bacteria_part3.sh
 qsub submit-RemoveRefSeqDuplicatedGenomes_bacteria_part4.sh
 ```
 
-## Concat all contigs from EuPath and convert RefSeq-Viral from .fna into .fasta
+## Concat all contigs from EuPath and convert NCBI-RefSeq-Viral from .fna into .fasta
 ```
 module load python/3.6.1
 # Concat EuPathDB .fasta files into a single file then concat all its contigs into a complete genome
