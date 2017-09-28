@@ -6,6 +6,7 @@
 5. Exclude any organism from NCBI-RefSeq that is included in EuPathDB
 6. Concat all contigs from EuPath and convert RefSeq-Viral from .fna into .fasta
 7. Generate all nonoverlapping 30-mers from RefSeq, BWA-MEM them with the concatenated contigs of Eupath, and Generate Homology Information Folder
+8. Generate the start and end coordinates of homologous regions.
 
 ## Download EuPathDB.org
 ```
@@ -254,4 +255,10 @@ module load samtools
 sed -i -e 's/\r$//' /u/project/zarlab/malser/MiCoP/Scripts/HomologyGenerator.sh
 chmod +x /u/project/zarlab/malser/MiCoP/Scripts/HomologyGenerator.sh
 /u/project/zarlab/malser/MiCoP/Scripts/HomologyGenerator.sh archaea
+```
+## Generate the start and end coordinates of homologous regions
+```
+qrsh -l i,h_rt=24:00:00,h_data=25G
+module load python/3.6.1
+python3 /u/project/zarlab/malser/MiCoP/Scripts/BuildHomologyCoverage.py /u/scratch2/scratch2/m/malser/HomologyInformation/ /u/scratch2/scratch2/m/malser/MergedEuPathDB/MiCoP_DB_RefList_perGenome.txt /u/scratch2/scratch2/m/malser/HomologyInformation_Regions/ 
 ```
