@@ -1,4 +1,4 @@
-# Building Reference Genome Database for MiCoP:
+# Build comprehensive MiCoP database:
 1. Download all genomes from EuPathDB.org
 2. Download all genomes from NCBI-RefSeq
 3. Move NCBI-RefSeq-Viral folder from NCBI-RefSeq to EuPathDB
