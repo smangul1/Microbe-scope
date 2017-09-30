@@ -17,7 +17,7 @@
 	<script type="text/javascript">
 	<!-- Filling the dropdown menu with mapped reference genomes -->
 	$(function() {
-		$("#Mapped-Genome").load("MiCoP_FinalCSVs/Mapped_Genome_List.txt");		
+		$("#MappedGenome").load("MiCoP_FinalCSVs/Mapped_Genome_List.txt");		
 	});
 	
 	$(document).ready(function() {
@@ -254,7 +254,7 @@
 			});
 		};
 		// 
-		$("#Mapped-Genome").on('change', function(){
+		$("#MappedGenome").on('change', function(){
 			var str1 = "MiCoP_FinalCSVs/";
 			var selVal = str1.concat($(this).val());
 			getChart(selVal);   
@@ -264,9 +264,55 @@
 	function downloadData() {
 		//get the filename from the selected item
 		var str1 = "MiCoP_FinalCSVs/";
-		var selVal = str1.concat($("#Mapped-Genome").val());
+		var selVal = str1.concat($("#MappedGenome").val());
 		//redirect to this file
 		document.location = selVal.concat(".csv");
+	}
+	function sortAlphabetically() {
+		$("#MappedGenome").html($('#MappedGenome option').sort(function(x, y) {
+            return $(x).val() < $(y).val() ? -1 : 1;
+        }))
+        $("#MappedGenome").get(0).selectedIndex = 0;   
+	}
+	function sortNumerically() {
+		var select = document.getElementById("MappedGenome");
+		var options = [], index = 0;
+		// Get elements to sort
+		for (var i in select.childNodes) {
+			var tagName = select.childNodes[i].tagName;
+			if (typeof(tagName) != 'undefined' &&
+				tagName.toLowerCase() == "option") {
+				options[index] = {};
+				options[index].node = select.childNodes[i];
+				options[index].content = select.childNodes[i].innerHTML;
+				index++;
+			}
+		}
+		// Empty select
+		while (select.firstChild) {
+			select.removeChild(select.firstChild);
+		}
+		// Sort function
+		function sort(a, b){
+			// Extract the unique coverage from each line in the combobox
+			var regex = /[+-]?\d+\.*\d+/;
+			var aa = a.content.match(regex);
+			var bb = b.content.match(regex);
+			//document.write(aa);
+			// Add leading zeros to the extracted numbers so that we have always 3 integer digits and two fractional digits XXX.XX 
+			// This will help us to naturally sort the numbers
+			aa=(aa <= 99 && aa >=10) ? ("0" + aa) : (aa <10) ? ("00" + aa) : aa;
+			bb=(bb <= 99 && bb >=10) ? ("0" + bb) : (bb <10) ? ("00" + bb) : bb;
+			return aa > bb ? -1 : 1;
+		}
+		// Sort array using previous function
+		options.sort(sort);
+		// Add the nodes again in order
+		for (var i in options) {
+			select.appendChild(options[i].node);
+		}
+		// Select the item from combbox that has the highest coverage
+		$("#MappedGenome").get(0).selectedIndex = 0;
 	}
 	//these two functions work only with Chrome Browser
 	/*function downloadCSV(csv, filename) {
@@ -307,6 +353,7 @@
 		@media screen and (-webkit-min-device-pixel-ratio:0) {  /*safari and chrome*/
 			select {
 				height:30px;
+				width:500px;
 				line-height:30px;
 				background:#f4f4f4;
 			} 
@@ -314,6 +361,7 @@
 		@media screen\0 { /* IE Hacks: targets IE 8, 9 and 10 */        
 			select {
 				height:30px;
+				width:500px;
 				line-height:30px;
 			}     
 		}
@@ -355,6 +403,19 @@
 			display: inline-block;
 			font-size: 11px;
 		}
+		.button-sort {
+			background-color: white;
+			border: none;
+			color: white;
+			padding: 0;
+			margin: 0;
+			height:20px;
+			line-height:20px;
+			text-align: center;
+			vertical-align: middle;
+			text-decoration: none;
+			display: inline-block;
+		}
 		.tg  {border-collapse:collapse;border-spacing:0;border-color:#ccc;border:none;}
 		.tg td{font-family:Arial, sans-serif;font-size:14px;padding:3px 10px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#fff;}
 		.tg .tg-cell{font-weight:normal;font-size:11px;text-align:center;vertical-align:middle}
@@ -369,15 +430,21 @@
 	
 	
 	<div>
-		<table style="width: 100%; margin-left:auto;margin-right:auto; border-bottom: 1px #333 dotted;">
+		<table style="width: 100%; margin-left:auto;margin-right:auto; border-bottom: 1px; #333 dotted;border-spacing:0em;">
 			<tr>
-				<td align="right" style="width: 45%;">
-					<h5>Choose Organism Reference : &nbsp;</h5>
-				</td>
-				<td align="left" >
-					<select id="Mapped-Genome">
-						<option>Choose organism reference</option>
+				&nbsp;
+			</tr>
+			<tr>
+				<td align="center">
+					<!-- <h5>&nbsp;</h5> -->
+					<select id="MappedGenome" title="Choose organism reference">
+						<option>--- Please select ---</option>
 					</select>
+					<button class="button-sort" title="Sort numerically based on unique coverage" onclick="sortNumerically()" type="button"><img src="Numerically.png" style="width:20px;height:20px;"></button>
+					<button class="button-sort" title="Sort alphabetically" onclick="sortAlphabetically()" type="button"><img src="Alphabetically.png" style="width:20px;height:20px;"></button>
+				</td>
+				<td align="left" style ="vertical-align: middle;">
+					
 				</td>
 			</tr>
 		</table>
