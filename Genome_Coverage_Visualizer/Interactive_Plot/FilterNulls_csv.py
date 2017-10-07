@@ -1,7 +1,4 @@
-# python3 /u/project/zarlab/malser/MiCoP/Scripts/FilterNulls_csv.py /u/project/zarlab/malser/MiCoP/eupathdbFasta_ConcatContigs/fungi/MiCoP_FinalCSVs /u/project/zarlab/malser/MiCoP/test/fungi/SRR3546361/fungi_RefList_perGenome.txt /u/scratch2/scratch2/m/malser/HomologyInformation/ 30 200
-
-# python3 /u/project/zarlab/malser/MiCoP/Scripts/FilterNulls_csv.py /u/scratch2/scratch2/m/malser/MiCoP_FinalCSVs /u/project/zarlab/malser/MiCoP/test/fungi/SRR3546361/fungi_RefList_perGenome.txt /u/scratch2/scratch2/m/malser/HomologyInformation/ 30 200
-
+# python3 /u/project/zarlab/malser/MiCoP/Scripts/FilterNulls_csv.py /u/project/zarlab/malser/MiCoP/MiCoP_FinalCSVs /u/project/zarlab/malser/MiCoP/MiCoP_SRR3546361/SRR3546361_MiCoP_DB_RefList_perGenome.txt /u/scratch2/scratch2/m/malser/HomologyInformation/ 30 200
 import argparse
 import sys
 import os
@@ -66,10 +63,11 @@ for file in os.listdir(str(mypath)):
 				with open(args.HMGtxt+file[:-4]+'.txt', 'r') as f:
 					for line in f:
 						Reads=Reads+1
-						location_start=int(line.rstrip())
-						for list_no in range(location_start , location_start+int(args.KMER)):
-							if list_no <= location_max:
-								location_list[list_no] = location_list[list_no] + 1	
+						if (line.rstrip().isdigit()):
+							location_start=int(line.rstrip())
+							for list_no in range(location_start , location_start+int(args.KMER)):
+								if list_no <= location_max:
+									location_list[list_no] = location_list[list_no] + 1	
 				# Rebuild the homology coverage based on the window size
 				val = 0
 				window_size=int(args.WS)
@@ -79,7 +77,7 @@ for file in os.listdir(str(mypath)):
 				left_windows = list()
 				right_windows = list()
 				coverage=0
-				for list_no in range(1 , location_max):
+				for list_no in range(1 , location_max+1):
 					if int(location_list[list_no])>0:
 						coverage=coverage+1
 					val += int(location_list[list_no])
@@ -166,12 +164,11 @@ for file in os.listdir(str(mypath)):
 						if (a==",null" and b==",null" and c==",null"):
 							continue
 						else:
-							o.write(splits[0]+a+b+c+d+'\n')
+							o.write(splits[0]+a+b+c+'\n')
 						
 					LineIndex=LineIndex+1
 				t.close()
-				o.close()
-		#elif 'Mapped_Genome_List.txt' in file:	
+				o.close()	
 	except Exception as e:
 		raise e
 		print("No files found here!")

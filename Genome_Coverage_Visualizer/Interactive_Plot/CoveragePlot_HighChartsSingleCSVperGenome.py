@@ -1,4 +1,4 @@
-# python CoveragePlot.py Read_FullList.sam GenomeInformation.txt 100000 1
+# python CoveragePlot.py Read_FullList.sam GenomeInformation.txt 100000 1 30
 import argparse
 import sys
 import os
@@ -19,6 +19,7 @@ def parseargs():
 	parser.add_argument('WS', help='Plot Window Size. Required.')
 	parser.add_argument('CAT', help='Read Category Number: Enter one of the following numbers: (1) Unique Reads, (2) MultiMapped reads within genome, (3) MultiMapped reads across genomes. Required.')
 	parser.add_argument('CPD', help='Coverage Plot Directory. Required.')
+	parser.add_argument('CVGTHR', help='Coverage Threshold %. Required.')
 	args = parser.parse_args()
 	return args
 
@@ -95,7 +96,7 @@ if os.path.getsize(str(args.bwa)) > 0:
 			left_windows = list()
 			right_windows = list()
 			coverage=0
-			for list_no in range(1 , location_max):
+			for list_no in range(1 , location_max+1):
 				if int(location_list[list_no])>0:
 					coverage=coverage+1
 				val += int(location_list[list_no])
@@ -111,15 +112,39 @@ if os.path.getsize(str(args.bwa)) > 0:
 				left_windows.append(int(window_start))
 				right_windows.append(int(window_end-1))
 				radii.append(float(float(val) / float(window_end - window_start)))
-						
-			coverage_percentage=((int(coverage)/int(location_max))*100)
 			header = header.split('=')[1]
 			##################################
 			# Write the data
 			outputFile = mypath+str(header)+'.csv'
-			
-			
-			if os.path.exists(outputFile)==1 and Read_CAT!=1: # if only MMAcross with no unique reads for this reference, then itwill be ignored and no plot generated
+			# Generate coverage file only if unique coverage is more than 30%
+			if ((Read_CAT==1) and (float(float(float(coverage)/float(location_max))*100.0)>=float(args.CVGTHR))):
+				MappedGenome='<option value="'+str(header)+'">' +'('+ str('%.2f%%' % float(float(float(coverage)/float(location_max))*100.0))+') '+str(header)+'</option>'+'\n'
+				GL.write(MappedGenome)
+				##
+				f = open(outputFile, 'w')
+				DataName=str(infile).split('/')
+				ChartTitle=str(DataName[len(DataName)-1].split('_')[0])+' mapped to '+header+'\n'
+				f.write(ChartTitle)
+				ChartSubtitle=rcat+str(' %s' % '{:,d}'.format(int(int(UniqueReads)-1)))+' -- '+'Coverage = '+str('{:,d}'.format(coverage))+'bp out of '+str('{:,d}'.format(location_max))+'bp' +' ('+ str('%.2f%%' % float(float(float(coverage)/float(location_max))*100.0))+')'+' -- '+'Window Size='+ '{:,d}'.format(window_size)+'\n'
+				f.write(ChartSubtitle)
+				ColumnsTitle='Position bp'+','+'Unique'+','+'MultiMapped Within'+','+'MultiMapped Across'+'\n'
+				f.write(ColumnsTitle)
+				
+				for list_no in range(0 , len(left_windows)):
+					if list_no==(len(left_windows)-1):
+						if radii[list_no]==0:
+							ss=str(left_windows[list_no])+','+'null'+','+'null'+','+'null'
+						else:
+							ss=str(left_windows[list_no])+','+str(radii[list_no])+','+'null'+','+'null'				
+					else:
+						if int(radii[list_no])==0:
+							ss=str(left_windows[list_no])+','+'null'+','+'null'+','+'null'+'\n'
+						else:
+							ss=str(left_windows[list_no])+','+str(radii[list_no])+','+'null'+','+'null'+'\n'
+					f.write(ss)
+				f.close()
+			# Ignore MMwithin and MMacross if there is no Unique coverage at all for this genome
+			elif os.path.exists(outputFile)==1 and Read_CAT!=1: 
 				#Create temporary file read/write
 				t = tempfile.NamedTemporaryFile(mode="r+")
 				#Open input file read-only
@@ -156,33 +181,6 @@ if os.path.getsize(str(args.bwa)) > 0:
 					LineIndex=LineIndex+1
 				t.close() #Close temporary file, will cause it to be deleted
 				o.close()
-			if Read_CAT==1:
-				MappedGenome='<option value="'+str(header)+'">' +'('+ str('%.2f%%' % float(float(float(coverage)/float(location_max))*100.0))+') '+str(header)+'</option>'+'\n'
-				GL.write(MappedGenome)
-				
-				##
-				f = open(outputFile, 'w')
-				DataName=str(infile).split('/')
-				ChartTitle=str(DataName[len(DataName)-1].split('_')[0])+' mapped to '+header+'\n'
-				f.write(ChartTitle)
-				ChartSubtitle=rcat+str(' %s' % '{:,d}'.format(int(int(UniqueReads)-1)))+' -- '+'Coverage = '+str('{:,d}'.format(coverage))+'bp out of '+str('{:,d}'.format(location_max))+'bp' +' ('+ str('%.2f%%' % float(float(float(coverage)/float(location_max))*100.0))+')'+' -- '+'Window Size='+ '{:,d}'.format(window_size)+'\n'
-				f.write(ChartSubtitle)
-				ColumnsTitle='Position bp'+','+'Unique'+','+'MultiMapped Within'+','+'MultiMapped Across'+'\n'
-				f.write(ColumnsTitle)
-				
-				for list_no in range(0 , len(left_windows)):
-					if list_no==(len(left_windows)-1):
-						if radii[list_no]==0:
-							ss=str(left_windows[list_no])+','+'null'+','+'null'+','+'null'
-						else:
-							ss=str(left_windows[list_no])+','+str(radii[list_no])+','+'null'+','+'null'				
-					else:
-						if int(radii[list_no])==0:
-							ss=str(left_windows[list_no])+','+'null'+','+'null'+','+'null'+'\n'
-						else:
-							ss=str(left_windows[list_no])+','+str(radii[list_no])+','+'null'+','+'null'+'\n'
-					f.write(ss)
-				f.close()
 			
 			#-----------------------------------------------------------------------------
 			#-----------------------------------------------------------------------------
@@ -221,7 +219,7 @@ if os.path.getsize(str(args.bwa)) > 0:
 	left_windows = list()
 	right_windows = list()
 	coverage=0
-	for list_no in range(window_start , location_max):
+	for list_no in range(window_start , location_max+1):
 		if int(location_list[list_no])>0:
 			coverage=coverage+1
 		val += int(location_list[list_no])
@@ -237,14 +235,39 @@ if os.path.getsize(str(args.bwa)) > 0:
 		left_windows.append(int(window_start))
 		right_windows.append(int(window_end-1))
 		radii.append(float(float(val) / float(window_end - window_start)))
-		
-	coverage_percentage=((int(coverage)/int(location_max))*100)
 	header = header.split('=')[1]
 	##################################
 	# Write the data
 	outputFile = mypath+str(header)+'.csv'
-
-	if os.path.exists(outputFile)==1 and Read_CAT!=1:
+	# Generate coverage file only if unique coverage is more than 30%
+	if ((Read_CAT==1) and (float(float(float(coverage)/float(location_max))*100.0)>=float(args.CVGTHR))):
+		MappedGenome='<option value="'+str(header)+'">' +'('+ str('%.2f%%' % float(float(float(coverage)/float(location_max))*100.0))+') '+str(header)+'</option>'+'\n'
+		GL.write(MappedGenome)
+		##
+		f = open(outputFile, 'w')
+		DataName=str(infile).split('/')
+		ChartTitle=str(DataName[len(DataName)-1].split('_')[0])+' mapped to '+header+'\n'
+		f.write(ChartTitle)
+		ChartSubtitle=rcat+str(' %s' % '{:,d}'.format(int(int(UniqueReads)-1)))+' -- '+'Coverage = '+str('{:,d}'.format(coverage))+'bp out of '+str('{:,d}'.format(location_max))+'bp' +' ('+ str('%.2f%%' % float(float(float(coverage)/float(location_max))*100.0))+')'+' -- '+'Window Size='+ '{:,d}'.format(window_size)+'\n'
+		f.write(ChartSubtitle)
+		ColumnsTitle='Position bp'+','+'Unique'+','+'MultiMapped Within'+','+'MultiMapped Across'+'\n'
+		f.write(ColumnsTitle)
+		
+		for list_no in range(0 , len(left_windows)):
+			if list_no==(len(left_windows)-1):
+				if radii[list_no]==0:
+					ss=str(left_windows[list_no])+','+'null'+','+'null'+','+'null'
+				else:
+					ss=str(left_windows[list_no])+','+str(radii[list_no])+','+'null'+','+'null'				
+			else:
+				if int(radii[list_no])==0:
+					ss=str(left_windows[list_no])+','+'null'+','+'null'+','+'null'+'\n'
+				else:
+					ss=str(left_windows[list_no])+','+str(radii[list_no])+','+'null'+','+'null'+'\n'
+			f.write(ss)
+		f.close()
+	# Ignore MMwithin and MMacross if there is no Unique coverage at all for this genome
+	elif os.path.exists(outputFile)==1 and Read_CAT!=1: 
 		#Create temporary file read/write
 		t = tempfile.NamedTemporaryFile(mode="r+")
 		#Open input file read-only
@@ -257,6 +280,7 @@ if os.path.getsize(str(args.bwa)) > 0:
 		o = open(outputFile, "w")  #Reopen input file writable
 		#Overwriting original file with temporary file contents     
 		LineIndex=0
+		NewLine=''
 		for line in t:
 			if LineIndex==0:
 				o.write(line)
@@ -275,37 +299,12 @@ if os.path.getsize(str(args.bwa)) > 0:
 				elif Read_CAT==3:
 					LineTokens=line.rstrip().split(',')
 					NewLine = LineTokens[0]+','+LineTokens[1]+','+LineTokens[2]+','+str(radii[LineIndex-3])+'\n'
-				
+					
 				o.write(NewLine)
 			LineIndex=LineIndex+1
 		t.close() #Close temporary file, will cause it to be deleted
 		o.close()
-	if Read_CAT==1:
-		MappedGenome='<option value="'+str(header)+'">' +'('+ str('%.2f%%' % float(float(float(coverage)/float(location_max))*100.0))+') '+str(header)+'</option>'
-		GL.write(MappedGenome)
-		##
-		f = open(outputFile, 'w')
-		DataName=str(infile).split('/')
-		ChartTitle=str(DataName[len(DataName)-1].split('_')[0])+' mapped to '+header+'\n'
-		f.write(ChartTitle)
-		ChartSubtitle=rcat+str(' %s' % '{:,d}'.format(int(int(UniqueReads)-1)))+' -- '+'Coverage = '+str('{:,d}'.format(coverage))+'bp out of '+str('{:,d}'.format(location_max))+'bp' +' ('+ str('%.2f%%' % float(float(float(coverage)/float(location_max))*100.0)+')')+' -- '+'Window Size='+ '{:,d}'.format(window_size)+'\n'
-		f.write(ChartSubtitle)
-		ColumnsTitle='Position bp'+','+'Unique'+','+'MultiMapped Within'+','+'MultiMapped Across'+'\n'
-		f.write(ColumnsTitle)
-		
-		for list_no in range(0 , len(left_windows)):
-			if list_no==(len(left_windows)-1):
-				if radii[list_no]==0:
-					ss=str(left_windows[list_no])+','+'null'+','+'null'+','+'null'
-				else:
-					ss=str(left_windows[list_no])+','+str(radii[list_no])+','+'null'+','+'null'				
-			else:
-				if int(radii[list_no])==0:
-					ss=str(left_windows[list_no])+','+'null'+','+'null'+','+'null'+'\n'
-				else:
-					ss=str(left_windows[list_no])+','+str(radii[list_no])+','+'null'+','+'null'+'\n'
-			f.write(ss)
-		f.close()
+	
 
 	infile.close()
 	if Read_CAT==1:

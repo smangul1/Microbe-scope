@@ -6,7 +6,7 @@ set -e  # exit immediately if error occurs
 # module load samtools
 # sed -i -e 's/\r$//' /u/project/zarlab/malser/MiCoP/Scripts/MiCoP_GenomeCoverageVisualizer.sh
 # chmod +x /u/project/zarlab/malser/MiCoP/Scripts/MiCoP_GenomeCoverageVisualizer.sh
-# /u/project/zarlab/malser/MiCoP/Scripts/MiCoP_GenomeCoverageVisualizer.sh /u/scratch2/scratch2/m/malser/MergedEuPathDB /u/home/galaxy/collaboratory/serghei/MetaSUB-Inter-City-Challenge/data/SRR3546361.fastq /u/project/zarlab/malser/MiCoP/Scripts /u/project/zarlab/malser/MiCoP 200 /u/scratch2/scratch2/m/malser/HomologyInformation/ 30
+# /u/project/zarlab/malser/MiCoP/Scripts/MiCoP_GenomeCoverageVisualizer.sh /u/scratch2/scratch2/m/malser/MergedEuPathDB /u/home/galaxy/collaboratory/serghei/MetaSUB-Inter-City-Challenge/data/SRR3546361.fastq /u/project/zarlab/malser/MiCoP/Scripts /u/project/zarlab/malser/MiCoP 1 /u/scratch2/scratch2/m/malser/HomologyInformation/ 30 30
 #########################################################################
 # Reference database (metagenome)
 metagenome=$1 									# /u/scratch2/scratch2/m/malser/MergedEuPathDB
@@ -65,7 +65,7 @@ esac
 #########################################################################
 KmerSize=$7                                  # 30
 #########################################################################
-
+CoverageThreshold=$8 
 #########################################################################
 #########################################################################
 #########################################################################
@@ -98,17 +98,17 @@ awk ' $1 != prev { if (count == 1) print line; count = 0 } { prev=$1; line = $0;
 
 if [ -s ${dataDir}${sampleFName}_UniqueReads_Sorted.sam ]
 then
-	python3 ${scriptDir}/CoveragePlot_HighChartsSingleCSVperGenome.py ${dataDir}${sampleFName}_UniqueReads_Sorted.sam ${dataDir}${sampleFName}_MiCoP_DB_RefList_perGenome.txt ${windowSize} 1 ${dataDir}
+	python3 ${scriptDir}/CoveragePlot_HighChartsSingleCSVperGenome.py ${dataDir}${sampleFName}_UniqueReads_Sorted.sam ${dataDir}${sampleFName}_MiCoP_DB_RefList_perGenome.txt ${windowSize} 1 ${dataDir} ${CoverageThreshold}
 	#########################################################################
 	# Multimapped Read (within genome)
 	echo "Third step: Multimapped Read (within genome) Coverage"
 	python3 ${scriptDir}/ReadClassifier_and_Filter.py ${dataDir}${sampleFName}_BWA-MEM_sorted.sam 2 | sort -t$'\t' -V -k 3,3 > ${dataDir}${sampleFName}_MMWithinReads_Sorted.sam
-	python3 ${scriptDir}/CoveragePlot_HighChartsSingleCSVperGenome.py ${dataDir}${sampleFName}_MMWithinReads_Sorted.sam ${dataDir}${sampleFName}_MiCoP_DB_RefList_perGenome.txt ${windowSize} 2 ${dataDir}
+	python3 ${scriptDir}/CoveragePlot_HighChartsSingleCSVperGenome.py ${dataDir}${sampleFName}_MMWithinReads_Sorted.sam ${dataDir}${sampleFName}_MiCoP_DB_RefList_perGenome.txt ${windowSize} 2 ${dataDir} ${CoverageThreshold}
 	#########################################################################
 	# Multimapped Read (across genome)
 	echo "Four step: Multimapped Read (across genome) Coverage"
 	python3 ${scriptDir}/ReadClassifier_and_Filter.py ${dataDir}${sampleFName}_BWA-MEM_sorted.sam 3 | sort -t$'\t' -V -k 3,3 > ${dataDir}${sampleFName}_MMAcrossReads_Sorted.sam
-	python3 ${scriptDir}/CoveragePlot_HighChartsSingleCSVperGenome.py ${dataDir}${sampleFName}_MMAcrossReads_Sorted.sam ${dataDir}${sampleFName}_MiCoP_DB_RefList_perGenome.txt ${windowSize} 3 ${dataDir}
+	python3 ${scriptDir}/CoveragePlot_HighChartsSingleCSVperGenome.py ${dataDir}${sampleFName}_MMAcrossReads_Sorted.sam ${dataDir}${sampleFName}_MiCoP_DB_RefList_perGenome.txt ${windowSize} 3 ${dataDir} ${CoverageThreshold}
 	#########################################################################
 	# Homologous Read Coverage and Finalizing the output .csv files
 	echo "Fifth step: Homologous Read Coverage and finalizing the output .csv files"
