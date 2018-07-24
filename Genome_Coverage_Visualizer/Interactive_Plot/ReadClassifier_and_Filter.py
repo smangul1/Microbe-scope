@@ -56,8 +56,8 @@ for line in infile:
 		#Print MMWithin reads
 		#Nominate best Multimapped read within genomes based on edit distance.
 		if MMWithin==1 and SameReadCounter>1 and Read_CAT==2:
-			EDFlag=[x[11] for x in MM_Storage]
 			try:
+				EDFlag=[x[11] for x in MM_Storage]
 				minEditDistance = min([x[5:] for x in EDFlag])
 			except:
 				minEditDistance = -1
@@ -77,8 +77,8 @@ for line in infile:
 					print(ThisLine)
 			#Nominate best Multimapped read within genomes based on alignment score.
 			else:
-				ASFlag=[x[13] for x in MM_Storage]
 				try:
+					ASFlag=[x[13] for x in MM_Storage]
 					maxAlignmentScore = max([x[5:] for x in ASFlag])
 				except:
 					maxAlignmentScore = -1
